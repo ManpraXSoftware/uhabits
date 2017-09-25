@@ -98,7 +98,7 @@ contribute, even if you are not a software developer.
 
 <img align="right" src="https://www.gnu.org/graphics/gplv3-88x31.png">
 
-	Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+	Copyright (C) 2016 Alinson Santos Xavier <isoron@gmail.com>
 
 	Loop Habit Tracker is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by the
