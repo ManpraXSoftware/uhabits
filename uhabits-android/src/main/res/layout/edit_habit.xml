@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2016 Alinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016 Alinson Santos Xavimhabitxoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -29,22 +29,22 @@
         android:id="@+id/formPanel"
         style="@style/dialogFormPanel">
 
-        <org.isoron.uhabits.activities.habits.edit.views.NameDescriptionPanel
+        <org.mhabitx.uhabits.activities.habits.edit.views.NameDescriptionPanel
             android:id="@+id/namePanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <org.isoron.uhabits.activities.habits.edit.views.FrequencyPanel
+        <org.mhabitx.uhabits.activities.habits.edit.views.FrequencyPanel
             android:id="@+id/frequencyPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <org.isoron.uhabits.activities.habits.edit.views.TargetPanel
+        <org.mhabitx.uhabits.activities.habits.edit.views.TargetPanel
             android:id="@+id/targetPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <org.isoron.uhabits.activities.habits.edit.views.ReminderPanel
+        <org.mhabitx.uhabits.activities.habits.edit.views.ReminderPanel
             android:id="@+id/reminderPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Alinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016 Alinson Santos Xavimhabitxoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -27,7 +27,7 @@
                     android:previewImage="@drawable/widget_preview_streaks"
                     android:resizeMode="vertical|horizontal"
                     android:updatePeriodMillis="3600000"
-                    android:configure="org.isoron.uhabits.widgets.HabitPickerDialog"
+                    android:configure="org.mhabitx.uhabits.widgets.HabitPickerDialog"
                     android:widgetCategory="home_screen">
 
 </appwidget-provider>

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2017 Alinson Santos Xavier <isoron@gmail.com>
+# Copyright (C) 2017 Alinson Santos Xavier <mhabitx@gmail.com>
 # This file is part of Loop Habit Tracker.
 #
 # Loop Habit Tracker is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 ADB="${ANDROID_HOME}/platform-tools/adb"
 EMULATOR="${ANDROID_HOME}/tools/emulator"
 GRADLE="./gradlew --stacktrace"
-PACKAGE_NAME=org.isoron.uhabits
+PACKAGE_NAME=mhabitx.uhabits
 OUTPUTS_DIR=uhabits-android/build/outputs
 
 if [ ! -f "${ANDROID_HOME}/platform-tools/adb" ]; then

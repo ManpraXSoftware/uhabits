@@ -40,7 +40,7 @@ android {
         minSdkVersion MIN_SDK_VERSION as Integer
         targetSdkVersion TARGET_SDK_VERSION as Integer
 
-        applicationId "org.isoron.uhabits"
+        applicationId "org.mhabitx.uhabits"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {

@@ -11,7 +11,7 @@
 -dontnote dalvik.system.**
 -dontnote javax.inject.**
 -dontnote org.apache.harmony.xnet.**
--dontnote org.isoron.**
+-dontnote mhabitx.**
 -dontnote sun.misc.**
 -dontnote sun.security.**
 
@@ -20,7 +20,7 @@
 -keep class io.socket.** { *; }
 -keep class okhttp3.** { *; }
 -keep class okio.** { *; }
--keep class org.isoron.** { *; }
+-keep class mhabitx.** { *; }
 -keep class sun.misc.Unsafe { *; }
 -keep class android.support.test.** { *; }
 -keep class org.mockito.** { *; }

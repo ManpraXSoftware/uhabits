@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Alinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016 Alinson Santos Xavimhabitxoron@gmail.com>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -18,7 +18,7 @@
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
 -->
 <manifest
-    package="org.isoron.uhabits"
+    package="org.mhabitx.uhabits"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
@@ -30,9 +30,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".HabitsApplication"
+        android:name="org.mhabitx.uhabits.HabitsApplication"
         android:allowBackup="true"
-        android:backupAgent=".HabitsBackupAgent"
+        android:backupAgent="org.mhabitx.uhabits.HabitsBackupAgent"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/main_activity_title"
         android:supportsRtl="true"
@@ -42,7 +42,7 @@
             android:value="AEdPqrEAAAAI6aeWncbnMNo8E5GWeZ44dlc5cQ7tCROwFhOtiw"/>
 
         <activity
-            android:name=".activities.habits.list.ListHabitsActivity"
+            android:name="org.mhabitx.uhabits.activities.habits.list.ListHabitsActivity"
             android:exported="true"
             android:label="@string/main_activity_title"
             android:launchMode="singleTop"/>
@@ -51,7 +51,7 @@
             android:name=".MainActivity"
             android:label="@string/main_activity_title"
             android:launchMode="singleTop"
-            android:targetActivity=".activities.habits.list.ListHabitsActivity">
+            android:targetActivity="org.mhabitx.uhabits.activities.habits.list.ListHabitsActivity">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -60,40 +60,40 @@
         </activity-alias>
 
         <activity
-            android:name=".activities.habits.show.ShowHabitActivity"
+            android:name="org.mhabitx.uhabits.activities.habits.show.ShowHabitActivity"
             android:label="@string/title_activity_show_habit">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.habits.list.ListHabitsActivity"/>
+                android:value="org.mhabitx.uhabits.activities.habits.list.ListHabitsActivity"/>
         </activity>
         <activity
-            android:name=".activities.settings.SettingsActivity"
+            android:name="org.mhabitx.uhabits.activities.settings.SettingsActivity"
             android:label="@string/settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.habits.list.ListHabitsActivity"/>
+                android:value="org.mhabitx.uhabits.activities.habits.list.ListHabitsActivity"/>
         </activity>
         <activity
-            android:name=".activities.intro.IntroActivity"
+            android:name="org.mhabitx.uhabits.activities.intro.IntroActivity"
             android:label=""
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
-            android:name=".widgets.HabitPickerDialog"
+            android:name="org.mhabitx.uhabits.widgets.HabitPickerDialog"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.about.AboutActivity"
+            android:name="org.mhabitx.uhabits.activities.about.AboutActivity"
             android:label="@string/about">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.habits.list.ListHabitsActivity"/>
+                android:value="org.mhabitx.uhabits.activities.habits.list.ListHabitsActivity"/>
         </activity>
 
         <receiver
-            android:name=".widgets.CheckmarkWidgetProvider"
+            android:name="org.mhabitx.uhabits.widgets.CheckmarkWidgetProvider"
             android:label="@string/checkmark">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -104,7 +104,7 @@
                 android:resource="@xml/widget_checkmark_info"/>
         </receiver>
         <receiver
-            android:name=".widgets.HistoryWidgetProvider"
+            android:name="org.mhabitx.uhabits.widgets.HistoryWidgetProvider"
             android:label="@string/history">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -115,7 +115,7 @@
                 android:resource="@xml/widget_history_info"/>
         </receiver>
         <receiver
-            android:name=".widgets.ScoreWidgetProvider"
+            android:name="org.mhabitx.uhabits.widgets.ScoreWidgetProvider"
             android:label="@string/habit_strength">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -126,7 +126,7 @@
                 android:resource="@xml/widget_score_info"/>
         </receiver>
         <receiver
-            android:name=".widgets.StreakWidgetProvider"
+            android:name="org.mhabitx.uhabits.widgets.StreakWidgetProvider"
             android:label="@string/streaks">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -137,7 +137,7 @@
                 android:resource="@xml/widget_streak_info"/>
         </receiver>
         <receiver
-            android:name=".widgets.FrequencyWidgetProvider"
+            android:name="org.mhabitx.uhabits.widgets.FrequencyWidgetProvider"
             android:label="@string/frequency">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -147,44 +147,44 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_frequency_info"/>
         </receiver>
-        <receiver android:name=".receivers.ReminderReceiver">
+        <receiver android:name="org.mhabitx.uhabits.receivers.ReminderReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
-        <receiver android:name=".receivers.WidgetReceiver">
+        <receiver android:name="org.mhabitx.uhabits.receivers.WidgetReceiver">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
 
-                <action android:name="org.isoron.uhabits.ACTION_TOGGLE_REPETITION"/>
+                <action android:name="org.mhabitx.uhabits.ACTION_TOGGLE_REPETITION"/>
 
                 <data
-                    android:host="org.isoron.uhabits"
+                    android:host="org.mhabitx.uhabits"
                     android:scheme="content"/>
             </intent-filter>
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
 
-                <action android:name="org.isoron.uhabits.ACTION_ADD_REPETITION"/>
+                <action android:name="org.mhabitx.uhabits.ACTION_ADD_REPETITION"/>
 
                 <data
-                    android:host="org.isoron.uhabits"
+                    android:host="org.mhabitx.uhabits"
                     android:scheme="content"/>
             </intent-filter>
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
 
-                <action android:name="org.isoron.uhabits.ACTION_REMOVE_REPETITION"/>
+                <action android:name="org.mhabitx.uhabits.ACTION_REMOVE_REPETITION"/>
 
                 <data
-                    android:host="org.isoron.uhabits"
+                    android:host="org.mhabitx.uhabits"
                     android:scheme="content"/>
             </intent-filter>
         </receiver>
 
         <!-- Locale/Tasker -->
         <activity
-            android:name=".automation.EditSettingActivity"
+            android:name="org.mhabitx.uhabits.automation.EditSettingActivity"
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name">
@@ -195,7 +195,7 @@
 
         <!-- Locale/Tasker -->
         <receiver
-            android:name=".automation.FireSettingReceiver"
+            android:name="org.mhabitx.uhabits.automation.FireSettingReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING"/>
@@ -204,7 +204,7 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="org.isoron.uhabits"
+            android:authorities="org.mhabitx.uhabits"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -213,7 +213,7 @@
         </provider>
 
         <service
-            android:name=".sync.SyncService"
+            android:name="org.mhabitx.uhabits.sync.SyncService"
             android:enabled="true"
             android:exported="false">
         </service>

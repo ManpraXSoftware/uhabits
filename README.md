@@ -19,8 +19,8 @@ show you how your habits improved over time. It is completely ad-free and open
 source.
 
 <p align="center">
-  <a href="https://play.google.com/store/apps/details?id=org.isoron.uhabits&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-AC-global-none-all-co-pr-py-PartBadges-Oct1515-1"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge-border.png" height="75px"/></a>
-  <a href="http://f-droid.org/app/org.isoron.uhabits"><img alt="Git if on F-Droid" src="http://i.imgur.com/baSPE7X.png" height="75px"/></a>
+  <a href="https://play.google.com/store/apps/details?id=mhabitx.uhabits&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-AC-global-none-all-co-pr-py-PartBadges-Oct1515-1"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge-border.png" height="75px"/></a>
+  <a href="http://f-droid.org/app/mhabitx.uhabits"><img alt="Git if on F-Droid" src="http://i.imgur.com/baSPE7X.png" height="75px"/></a>
 </p>
 
 ## Screenshots
@@ -98,7 +98,7 @@ contribute, even if you are not a software developer.
 
 <img align="right" src="https://www.gnu.org/graphics/gplv3-88x31.png">
 
-	Copyright (C) 2016 Alinson Santos Xavier <isoron@gmail.com>
+	Copyright (C) 2016 Alinson Santos Xavier <mhabitx@gmail.com>
 
 	Loop Habit Tracker is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by the
@@ -126,9 +126,9 @@ contribute, even if you are not a software developer.
 [screen5th]: screenshots/thumbs/uhabits5.png
 [screen6th]: screenshots/thumbs/uhabits6.png
 [poedit]: http://translate.loophabits.org
-[playstore]: https://play.google.com/store/apps/details?id=org.isoron.uhabits
+[playstore]: https://play.google.com/store/apps/details?id=mhabitx.uhabits
 [releases]: https://github.com/iSoron/uhabits/releases
-[fdroid]: http://f-droid.org/app/org.isoron.uhabits
+[fdroid]: http://f-droid.org/app/mhabitx.uhabits
 [dev-guide]: https://github.com/iSoron/uhabits/wiki/Developer-guidelines
 [build]: https://github.com/iSoron/uhabits/wiki/Developer-guidelines#building
-[beta]: https://play.google.com/apps/testing/org.isoron.uhabits
+[beta]: https://play.google.com/apps/testing/mhabitx.uhabits
