@@ -108,7 +108,9 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
+    <!--temporally hiding these options-->
+
+    <!--PreferenceCategory
         android:key="linksCategory"
         android:title="@string/links">
 
@@ -131,7 +133,7 @@
                 android:targetPackage="org.mhabitx.uhabits"/>
         </Preference>
 
-    </PreferenceCategory>
+    </PreferenceCategory-->
 
     <PreferenceCategory
         android:key="devCategory"
