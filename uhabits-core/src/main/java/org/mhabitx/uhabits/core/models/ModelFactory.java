@@ -44,6 +44,8 @@ public interface ModelFactory
 
     RepetitionList buildRepetitionList(Habit habit);
 
+    HabitLogList buildLogList(Habit habit);
+
     ScoreList buildScoreList(Habit habit);
 
     StreakList buildStreakList(Habit habit);
@@ -51,4 +53,6 @@ public interface ModelFactory
     Repository<HabitRecord> buildHabitListRepository();
 
     Repository<RepetitionRecord> buildRepetitionListRepository();
+
+    Repository<LogRecord> buildLogListRepository();
 }

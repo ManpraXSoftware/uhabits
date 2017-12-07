@@ -17,7 +17,10 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 <LinearLayout style="@style/dialogFormRow"
               xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
@@ -66,4 +69,48 @@
 
     </org.apmem.tools.layouts.FlowLayout>
 
+</LinearLayout>
+    <LinearLayout style="@style/dialogFormRow"
+        android:layout_marginTop="12dp"
+        android:id="@+id/targetLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/dialogFormLabel"
+            android:text="@string/target"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2">
+
+            <EditText
+                android:id="@+id/tvTargetCountEdit"
+                style="@style/dialogFormInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/count"
+                android:inputType="numberDecimal"
+                android:text="@string/default_target"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2">
+
+            <!--<org.mhabitx.uhabits.activities.habits.edit.views.ExampleEditText-->
+                <!--android:id="@+id/tvUnit"-->
+                <!--style="@style/dialogFormInput"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="@string/unit"-->
+                <!--android:inputType="text"-->
+                <!--android:visibility="gone"-->
+                <!--app:example="@string/example_units"/>-->
+        </TextView>
+    </LinearLayout>
 </LinearLayout>

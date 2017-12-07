@@ -48,6 +48,8 @@ public class Habit
 
     public static final int YES_NO_HABIT = 0;
 
+    public static final int MULTIPLE_HABIT = 2;  //This is multiple type habit
+
     @Nullable
     public Long id;
 
@@ -62,6 +64,8 @@ public class Habit
 
     @NonNull
     private RepetitionList repetitions;
+    @NonNull
+    private HabitLogList logs;
 
     @NonNull
     private CheckmarkList checkmarks;
@@ -82,6 +86,7 @@ public class Habit
         streaks = factory.buildStreakList(this);
         scores = factory.buildScoreList(this);
         repetitions = factory.buildRepetitionList(this);
+        logs = factory.buildLogList(this);
     }
 
     Habit(@NonNull ModelFactory factory, @NonNull HabitData data)
@@ -91,6 +96,7 @@ public class Habit
         streaks = factory.buildStreakList(this);
         scores = factory.buildScoreList(this);
         repetitions = factory.buildRepetitionList(this);
+        logs = factory.buildLogList(this);
         observable = new ModelObservable();
     }
 
@@ -262,7 +268,7 @@ public class Habit
 
     public synchronized void setType(int type)
     {
-        if (type != YES_NO_HABIT && type != NUMBER_HABIT)
+        if (type != YES_NO_HABIT && type != NUMBER_HABIT&& type != MULTIPLE_HABIT)
             throw new IllegalArgumentException();
 
         data.type = type;

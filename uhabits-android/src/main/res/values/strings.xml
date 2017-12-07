@@ -135,7 +135,7 @@
     <string name="last_x_months">Last %d months</string>
     <string name="last_x_years">Last %d years</string>
     <string name="all_time">All time</string>
-
+    <string name="any_time">Any time</string>
     <string name="every_day">Every day</string>
     <string name="every_week">Every week</string>
     <string name="two_times_per_week">2 times per week</string>
@@ -165,6 +165,7 @@
     <string name="reverse_days">Reverse order of days</string>
     <string name="reverse_days_description">Show days in reverse order on the main screen</string>
 
+    <string name="hour">Hour</string>
     <string name="day">Day</string>
     <string name="week">Week</string>
     <string name="month">Month</string>
@@ -215,4 +216,5 @@
     <string name="example_question_boolean">e.g. Did you exercise today?</string>
     <string name="question">Question</string>
     <string name="target">Target</string>
+    <string name="default_target">24</string>
 </resources>

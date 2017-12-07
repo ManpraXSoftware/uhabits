@@ -151,8 +151,8 @@ class ListHabitsScreen
         val dialog = AlertDialog.Builder(activity)
                 .setTitle("Type of habit")
                 .setItems(R.array.habitTypes) { _, which ->
-                    if (which == 0) showCreateBooleanHabitScreen()
-                    else showCreateNumericalHabitScreen()
+                    if (which == 1) showCreateNumericalHabitScreen()
+                    else showCreateBooleanHabitScreen()
                 }
                 .create()
 

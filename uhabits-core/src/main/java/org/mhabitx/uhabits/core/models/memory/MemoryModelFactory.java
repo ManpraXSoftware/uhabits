@@ -44,6 +44,11 @@ public class MemoryModelFactory implements ModelFactory
     }
 
     @Override
+    public HabitLogList buildLogList(Habit habit) {
+        return null;
+    }
+
+    @Override
     public ScoreList buildScoreList(Habit habit)
     {
         return new MemoryScoreList(habit);
@@ -65,5 +70,10 @@ public class MemoryModelFactory implements ModelFactory
     public Repository<RepetitionRecord> buildRepetitionListRepository()
     {
         throw new IllegalStateException();
+    }
+
+    @Override
+    public Repository<LogRecord> buildLogListRepository() {
+        return null;
     }
 }

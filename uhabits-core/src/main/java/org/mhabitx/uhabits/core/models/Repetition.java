@@ -19,7 +19,11 @@
 
 package org.mhabitx.uhabits.core.models;
 
-import org.apache.commons.lang3.builder.*;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import java.util.List;
 
 import static org.mhabitx.uhabits.core.utils.StringUtils.defaultToStringStyle;
 
@@ -27,19 +31,31 @@ import static org.mhabitx.uhabits.core.utils.StringUtils.defaultToStringStyle;
  * Represents a record that the user has performed a certain habit at a certain
  * date.
  */
-public final class Repetition
-{
+public final class Repetition {
 
     private final Timestamp timestamp;
 
     /**
      * The value of the repetition.
-     *
+     * <p>
      * For boolean habits, this always equals Checkmark.CHECKED_EXPLICITLY.
      * For numerical habits, this number is stored in thousandths. That
      * is, if the user enters value 1.50 on the app, it is here stored as 1500.
+     * For multiple habits, it should be number of logs each day perform
      */
     private final int value;
+    /**
+     * For multiple habits, this is what we want to achieve.
+     */
+    private int target;
+    /**
+     * For multiple habits, this is use to bound number of logs each day
+     */
+    private int limit;
+    /**
+     * list of logs dump each day
+     */
+    private List<HabitLog> logs;
 
     /**
      * Creates a new repetition with given parameters.
@@ -49,51 +65,71 @@ public final class Repetition
      *
      * @param timestamp the time this repetition occurred.
      */
-    public Repetition(Timestamp timestamp, int value)
-    {
+    public Repetition(Timestamp timestamp, int value) {
         this.timestamp = timestamp;
         this.value = value;
     }
 
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         Repetition that = (Repetition) o;
 
         return new EqualsBuilder()
-            .append(timestamp, that.timestamp)
-            .append(value, that.value)
-            .isEquals();
+                .append(timestamp, that.timestamp)
+                .append(value, that.value)
+                .isEquals();
     }
 
-    public Timestamp getTimestamp()
-    {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public int getValue()
-    {
+    public int getValue() {
         return value;
     }
 
-    @Override
-    public int hashCode()
-    {
-        return new HashCodeBuilder(17, 37)
-            .append(timestamp)
-            .append(value)
-            .toHashCode();
+    public int getTarget() {
+        return target;
+    }
+
+    public void setTarget(int target) {
+        this.target = target;
+    }
+
+    public int getLimit() {
+        return limit;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
+    public List<HabitLog> getLogs() {
+        return logs;
+    }
+
+    public void setLogs(List<HabitLog> logs) {
+        this.logs = logs;
     }
 
     @Override
-    public String toString()
-    {
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(timestamp)
+                .append(value)
+                .toHashCode();
+    }
+
+    @Override
+    public String toString() {
         return new ToStringBuilder(this, defaultToStringStyle())
-            .append("timestamp", timestamp)
-            .append("value", value)
-            .toString();
+                .append("timestamp", timestamp)
+                .append("value", value)
+                .append("target", target)
+                .append("limit", target)
+                .toString();
     }
 }

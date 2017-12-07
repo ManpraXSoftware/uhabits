@@ -20,6 +20,7 @@
 package org.mhabitx.uhabits
 
 import android.util.*
+import android.util.Log
 import org.mhabitx.uhabits.core.*
 import org.mhabitx.uhabits.core.models.*
 import org.mhabitx.uhabits.core.utils.*

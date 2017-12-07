@@ -125,13 +125,13 @@ public class EditHabitDialog extends AppCompatDialogFragment
 
     protected void saveHabit(@NonNull Habit habit)
     {
-        if (originalHabit == null)
+        if (originalHabit == null)   //creating new habit
         {
             commandRunner.execute(component
                 .getCreateHabitCommandFactory()
                 .create(habitList, habit), null);
         }
-        else
+        else                    //editing habit
         {
             commandRunner.execute(component.getEditHabitCommandFactory().
                 create(habitList, originalHabit, habit), originalHabit.getId());
@@ -169,6 +169,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
         if (!namePanel.validate()) return;
         if (type == Habit.YES_NO_HABIT && !frequencyPanel.validate()) return;
         if (type == Habit.NUMBER_HABIT && !targetPanel.validate()) return;
+        if (type == Habit.MULTIPLE_HABIT && !frequencyPanel.validateTarget()) return;
 
         Habit habit = modelFactory.buildHabit();
         habit.setName(namePanel.getName());
