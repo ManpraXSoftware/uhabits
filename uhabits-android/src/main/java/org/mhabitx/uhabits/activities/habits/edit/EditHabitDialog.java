@@ -36,6 +36,7 @@ import org.mhabitx.uhabits.activities.habits.edit.views.*;
 import org.mhabitx.uhabits.core.commands.*;
 import org.mhabitx.uhabits.core.models.*;
 import org.mhabitx.uhabits.core.preferences.*;
+import org.mhabitx.uhabits.utils.HLogger;
 
 import butterknife.*;
 
@@ -180,7 +181,7 @@ public class EditHabitDialog extends AppCompatDialogFragment
         habit.setUnit(targetPanel.getUnit());
         habit.setTargetValue(targetPanel.getTargetValue());
         habit.setType(type);
-
+        HLogger.m(habit.toString());
         saveHabit(habit);
         dismiss();
     }

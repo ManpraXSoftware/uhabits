@@ -19,28 +19,32 @@
 
 package org.mhabitx.uhabits.core.models;
 
-import android.support.annotation.*;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import org.mhabitx.uhabits.core.utils.*;
+import org.mhabitx.uhabits.core.utils.DateUtils;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * The collection of {@link Repetition}s belonging to a habit.
  */
-public abstract class RepetitionList
-{
+public abstract class RepetitionList {
     @NonNull
     protected final Habit habit;
 
     @NonNull
     protected final ModelObservable observable;
 
-    public RepetitionList(@NonNull Habit habit)
-    {
+    public RepetitionList(@NonNull Habit habit) {
         this.habit = habit;
         this.observable = new ModelObservable();
     }
+
+    public abstract List<Repetition> getAll();
 
     /**
      * Adds a repetition to the list.
@@ -60,8 +64,7 @@ public abstract class RepetitionList
      * @return true if list contains repetition with given timestamp, false
      * otherwise.
      */
-    public boolean containsTimestamp(Timestamp timestamp)
-    {
+    public boolean containsTimestamp(Timestamp timestamp) {
         return (getByTimestamp(timestamp) != null);
     }
 
@@ -90,9 +93,9 @@ public abstract class RepetitionList
     @Nullable
     public abstract Repetition getByTimestamp(Timestamp timestamp);
 
+
     @NonNull
-    public ModelObservable getObservable()
-    {
+    public ModelObservable getObservable() {
         return observable;
     }
 
@@ -132,14 +135,12 @@ public abstract class RepetitionList
      * @return total number of repetitions by month versus day of week
      */
     @NonNull
-    public HashMap<Timestamp, Integer[]> getWeekdayFrequency()
-    {
+    public HashMap<Timestamp, Integer[]> getWeekdayFrequency() {
         List<Repetition> reps =
-            getByInterval(Timestamp.ZERO, DateUtils.getToday());
+                getByInterval(Timestamp.ZERO, DateUtils.getToday());
         HashMap<Timestamp, Integer[]> map = new HashMap<>();
 
-        for (Repetition r : reps)
-        {
+        for (Repetition r : reps) {
             Calendar date = r.getTimestamp().toCalendar();
             int weekday = r.getTimestamp().getWeekday();
             date.set(Calendar.DAY_OF_MONTH, 1);
@@ -147,8 +148,7 @@ public abstract class RepetitionList
             Timestamp timestamp = new Timestamp(date.getTimeInMillis());
             Integer[] list = map.get(timestamp);
 
-            if (list == null)
-            {
+            if (list == null) {
                 list = new Integer[7];
                 Arrays.fill(list, 0);
                 map.put(timestamp, list);
@@ -185,17 +185,22 @@ public abstract class RepetitionList
      * @return the repetition that has been added or removed.
      */
     @NonNull
-    public synchronized Repetition toggle(Timestamp timestamp)
-    {
-        if(habit.isNumerical())
+    public synchronized Repetition toggle(Timestamp timestamp) {
+
+        if (habit.isNumerical())
             throw new IllegalStateException("habit must NOT be numerical");
 
         Repetition rep = getByTimestamp(timestamp);
-        if (rep != null) remove(rep);
-        else
-        {
+        if (rep != null) {
+            remove(rep);
+            rep.getHabitLogs().removeAll();
+        } else {
             rep = new Repetition(timestamp, Checkmark.CHECKED_EXPLICITLY);
             add(rep);
+            //  init multiple habit params
+            rep.setTarget(Habit.AT_MOST);
+            rep.setLimit(Habit.AT_MOST);
+            rep.getHabitLogs().makeEntry(DateUtils.getCorrectLogTime(timestamp));
         }
 
         habit.invalidateNewerThan(timestamp);
@@ -210,10 +215,9 @@ public abstract class RepetitionList
     @NonNull
     public abstract long getTotalCount();
 
-    public void toggle(Timestamp timestamp, int value)
-    {
+    public void toggle(Timestamp timestamp, int value) {
         Repetition rep = getByTimestamp(timestamp);
-        if(rep != null) remove(rep);
+        if (rep != null) remove(rep);
         add(new Repetition(timestamp, value));
         habit.invalidateNewerThan(timestamp);
     }

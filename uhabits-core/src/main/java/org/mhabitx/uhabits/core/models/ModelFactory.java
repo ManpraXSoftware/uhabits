@@ -44,7 +44,7 @@ public interface ModelFactory
 
     RepetitionList buildRepetitionList(Habit habit);
 
-    HabitLogList buildLogList(Habit habit);
+    HabitLogList buildLogList(Repetition repetition);
 
     ScoreList buildScoreList(Habit habit);
 

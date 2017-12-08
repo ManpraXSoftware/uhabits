@@ -16,7 +16,7 @@ import org.mhabitx.uhabits.core.models.Timestamp;
 public class LogRecord {
     public RepetitionRecord repetitionRecord;
 
-    @Column(name = "repetitionId")
+    @Column(name = "repetition_id")
     public Long repetitionId;
 
     @Column
@@ -34,7 +34,7 @@ public class LogRecord {
         value = log.getValue();
     }
 
-    public HabitLog toLog()
+    public HabitLog toHabitLog()
     {
         return new HabitLog(new Timestamp(timestamp), value);
     }

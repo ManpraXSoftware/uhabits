@@ -59,7 +59,7 @@
     <string-array name="habitTypes" translatable="false">
         <item>Yes or No</item>
         <item>Number</item>
-        <item>Multiple</item>
+        <!--<item>Multiple</item>-->
     </string-array>
 
     <string-array name="actions" translatable="false">

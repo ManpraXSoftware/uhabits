@@ -44,8 +44,8 @@ public class MemoryModelFactory implements ModelFactory
     }
 
     @Override
-    public HabitLogList buildLogList(Habit habit) {
-        return null;
+    public HabitLogList buildLogList(Repetition repetition) {
+        return new MemoryHabitLogList(repetition);
     }
 
     @Override

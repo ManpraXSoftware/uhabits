@@ -20,6 +20,7 @@
 package org.mhabitx.uhabits.core.models;
 
 import org.apache.commons.lang3.builder.*;
+import org.mhabitx.uhabits.core.utils.DateUtils;
 
 import java.util.*;
 
@@ -41,6 +42,10 @@ public final class Timestamp
             throw new IllegalArgumentException(
                 "Invalid unix time: " + unixTime);
 
+        this.unixTime = unixTime;
+    }
+    public Timestamp(long unixTime,boolean noCheck)
+    {
         this.unixTime = unixTime;
     }
 
@@ -146,5 +151,9 @@ public final class Timestamp
     public int getWeekday()
     {
         return toCalendar().get(DAY_OF_WEEK) % 7;
+    }
+
+    public boolean isToday() {
+        return this.toJavaDate().compareTo(new Date(System.currentTimeMillis()))==0;
     }
 }

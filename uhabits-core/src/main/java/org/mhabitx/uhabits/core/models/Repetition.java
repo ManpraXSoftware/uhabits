@@ -19,11 +19,15 @@
 
 package org.mhabitx.uhabits.core.models;
 
+import android.support.annotation.Nullable;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import static org.mhabitx.uhabits.core.utils.StringUtils.defaultToStringStyle;
 
@@ -51,12 +55,14 @@ public final class Repetition {
     /**
      * For multiple habits, this is use to bound number of logs each day
      */
-    private int limit;
+    private int limit ;
     /**
-     * list of logs dump each day
+     * list of logs that dumps each day
      */
-    private List<HabitLog> logs;
+    @Inject
+    private HabitLogList habitLogs;
 
+    private Long id;
     /**
      * Creates a new repetition with given parameters.
      * <p>
@@ -107,12 +113,20 @@ public final class Repetition {
         this.limit = limit;
     }
 
-    public List<HabitLog> getLogs() {
-        return logs;
+    public HabitLogList getHabitLogs() {
+        return habitLogs;
     }
 
-    public void setLogs(List<HabitLog> logs) {
-        this.logs = logs;
+    public void setHabitLogs(HabitLogList habitLogs) {
+        this.habitLogs = habitLogs;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override
@@ -130,6 +144,7 @@ public final class Repetition {
                 .append("value", value)
                 .append("target", target)
                 .append("limit", target)
+                .append("id", id)
                 .toString();
     }
 }

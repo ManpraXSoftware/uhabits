@@ -48,10 +48,13 @@ public class RepetitionRecord
     {
         timestamp = repetition.getTimestamp().getUnixTime();
         value = repetition.getValue();
+        id=repetition.getId();
     }
 
     public Repetition toRepetition()
     {
-        return new Repetition(new Timestamp(timestamp), value);
+        Repetition repetition= new Repetition(new Timestamp(timestamp), value);
+        repetition.setId(id);
+        return repetition;
     }
 }

@@ -39,6 +39,11 @@ public class MemoryRepetitionList extends RepetitionList
     }
 
     @Override
+    public List<Repetition> getAll() {
+        return list;
+    }
+
+    @Override
     public void add(Repetition repetition)
     {
         list.add(repetition);

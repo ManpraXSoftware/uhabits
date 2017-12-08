@@ -66,6 +66,12 @@ public class SQLiteRepetitionList extends RepetitionList
     }
 
     @Override
+    public List<Repetition> getAll() {
+        loadRecords();
+        return list.getAll();
+    }
+
+    @Override
     public void add(Repetition rep)
     {
         loadRecords();

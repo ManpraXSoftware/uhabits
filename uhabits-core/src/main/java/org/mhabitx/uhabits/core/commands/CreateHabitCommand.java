@@ -56,7 +56,6 @@ public class CreateHabitCommand extends Command
         Habit savedHabit = modelFactory.buildHabit();
         savedHabit.copyFrom(model);
         savedHabit.setId(savedId);
-
         habitList.add(savedHabit);
         savedId = savedHabit.getId();
     }
