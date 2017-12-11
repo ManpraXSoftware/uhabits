@@ -20,12 +20,14 @@
 package org.mhabitx.uhabits.activities.habits.list.views
 
 import android.content.*
+import android.util.Log
 import com.google.auto.factory.*
 import org.mhabitx.androidbase.activities.*
 import org.mhabitx.uhabits.core.models.*
 import org.mhabitx.uhabits.core.models.Checkmark.*
 import org.mhabitx.uhabits.core.preferences.*
 import org.mhabitx.uhabits.core.utils.*
+import java.util.*
 
 @AutoFactory
 class CheckmarkPanelView(
@@ -60,12 +62,22 @@ class CheckmarkPanelView(
 
         buttons.forEachIndexed { index, button ->
             val timestamp = today.minus(index + dataOffset)
+            print("timestamp ==> " + timestamp.toString())
+            print("dataOffset ==> " + dataOffset)
+            print("index ==> " + index)
+            print("index+offset ==> " + (index+dataOffset))
+            print("values ==> " + Arrays.toString(values))
             button.value = when {
                 index + dataOffset < values.size -> values[index + dataOffset]
                 else -> UNCHECKED
             }
             button.color = color
             button.onToggle = { onToggle(timestamp) }
+            print("color ==> " + color)
+            print("value ==> " + button.value)
         }
+    }
+    fun print(msg:String){
+        Log.d("MK==> ",""+msg)
     }
 }

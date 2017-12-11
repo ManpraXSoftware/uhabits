@@ -19,8 +19,8 @@ import java.util.List;
 public class MemoryHabitLogList extends HabitLogList {
     ArrayList<HabitLog> list;
 
-    public MemoryHabitLogList(@NonNull Repetition repetition) {
-        super(repetition);
+    public MemoryHabitLogList(@NonNull Long repetitionId) {
+        super(repetitionId);
         list= new ArrayList<>();
     }
 

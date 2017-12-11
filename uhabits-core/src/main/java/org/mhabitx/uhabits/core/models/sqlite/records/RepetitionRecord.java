@@ -57,4 +57,5 @@ public class RepetitionRecord
         repetition.setId(id);
         return repetition;
     }
+    public Long getId(){return id;}
 }

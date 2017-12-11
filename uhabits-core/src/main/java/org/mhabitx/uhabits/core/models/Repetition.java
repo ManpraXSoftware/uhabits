@@ -59,7 +59,6 @@ public final class Repetition {
     /**
      * list of logs that dumps each day
      */
-    @Inject
     private HabitLogList habitLogs;
 
     private Long id;

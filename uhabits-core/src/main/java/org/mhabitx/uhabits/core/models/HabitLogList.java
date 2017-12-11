@@ -19,7 +19,7 @@ import javax.annotation.concurrent.ThreadSafe;
 public abstract class HabitLogList {
 //    @NonNull
    // protected final Habit habit;
-    protected final Repetition repetition;
+    protected final Long repetitionId;
 
     @NonNull
     protected final ModelObservable observable;
@@ -29,9 +29,9 @@ public abstract class HabitLogList {
 //        this.habit = habit;
 //        this.observable = new ModelObservable();
 //    }
-    public HabitLogList(@NonNull Repetition repetition)
+    public HabitLogList(@NonNull Long repetitionId)
     {
-        this.repetition = repetition;
+        this.repetitionId = repetitionId;
         this.observable = new ModelObservable();
     }
 

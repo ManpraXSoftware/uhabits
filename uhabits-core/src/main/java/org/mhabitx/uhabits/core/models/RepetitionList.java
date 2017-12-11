@@ -44,7 +44,6 @@ public abstract class RepetitionList {
         this.observable = new ModelObservable();
     }
 
-    public abstract List<Repetition> getAll();
 
     /**
      * Adds a repetition to the list.
@@ -159,7 +158,14 @@ public abstract class RepetitionList {
 
         return map;
     }
-
+    /**
+     * Returns the Repetition with specified id.
+     *
+     * @param id the id of the Repetition
+     * @return the Repetition, or null if none exist
+     */
+    @Nullable
+    public abstract Repetition getById(long id);
     /**
      * Removes a given repetition from the list.
      * <p>
@@ -197,10 +203,10 @@ public abstract class RepetitionList {
         } else {
             rep = new Repetition(timestamp, Checkmark.CHECKED_EXPLICITLY);
             add(rep);
-            //  init multiple habit params
+            //  init multiple type habit params
             rep.setTarget(Habit.AT_MOST);
             rep.setLimit(Habit.AT_MOST);
-            rep.getHabitLogs().makeEntry(DateUtils.getCorrectLogTime(timestamp));
+           rep.getHabitLogs().makeEntry(DateUtils.getCorrectLogTime(timestamp));
         }
 
         habit.invalidateNewerThan(timestamp);

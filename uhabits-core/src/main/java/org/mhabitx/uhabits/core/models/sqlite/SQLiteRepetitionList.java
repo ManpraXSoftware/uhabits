@@ -21,134 +21,134 @@
 
 package org.mhabitx.uhabits.core.models.sqlite;
 
-import android.support.annotation.*;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import org.mhabitx.uhabits.core.database.*;
-import org.mhabitx.uhabits.core.models.*;
-import org.mhabitx.uhabits.core.models.memory.*;
-import org.mhabitx.uhabits.core.models.sqlite.records.*;
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.Contract;
+import org.mhabitx.uhabits.core.database.Repository;
+import org.mhabitx.uhabits.core.models.Habit;
+import org.mhabitx.uhabits.core.models.ModelFactory;
+import org.mhabitx.uhabits.core.models.Repetition;
+import org.mhabitx.uhabits.core.models.RepetitionList;
+import org.mhabitx.uhabits.core.models.Timestamp;
+import org.mhabitx.uhabits.core.models.memory.MemoryRepetitionList;
+import org.mhabitx.uhabits.core.models.sqlite.records.RepetitionRecord;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * Implementation of a {@link RepetitionList} that is backed by SQLite.
  */
-public class SQLiteRepetitionList extends RepetitionList
-{
+public class SQLiteRepetitionList extends RepetitionList {
     private final Repository<RepetitionRecord> repository;
 
     private final MemoryRepetitionList list;
 
     private boolean loaded = false;
+    private ModelFactory modelFactory;
 
     public SQLiteRepetitionList(@NonNull Habit habit,
-                                @NonNull ModelFactory modelFactory)
-    {
+                                @NonNull ModelFactory modelFactory) {
         super(habit);
+        this.modelFactory = modelFactory;
         repository = modelFactory.buildRepetitionListRepository();
         list = new MemoryRepetitionList(habit);
     }
 
-    private void loadRecords()
-    {
+    private void loadRecords() {
         if (loaded) return;
         loaded = true;
 
         check(habit.getId());
         List<RepetitionRecord> records =
-            repository.findAll("where habit = ? order by timestamp",
-                habit.getId().toString());
+                repository.findAll("where habit = ? order by timestamp",
+                        habit.getId().toString());
 
-        for (RepetitionRecord rec : records)
-            list.add(rec.toRepetition());
+        //Habit rep
+        //init mx habit logs
+        for (RepetitionRecord rec : records) {
+            Repetition rep = rec.toRepetition();                       //modelFactory.buildLogList() create a collection for table item & memory item.
+            rep.setHabitLogs(modelFactory.buildLogList(rec.getId()));  //repetition id  which corresponds to Habit Log.
+            list.add(rep);
+        }
     }
 
     @Override
-    public List<Repetition> getAll() {
+    public void add(Repetition rep) {
         loadRecords();
-        return list.getAll();
-    }
-
-    @Override
-    public void add(Repetition rep)
-    {
-        loadRecords();
-        list.add(rep);
         check(habit.getId());
         RepetitionRecord record = new RepetitionRecord();
         record.habit_id = habit.getId();
         record.copyFrom(rep);
         repository.save(record);
+        rep.setId(record.getId());
+        rep.setHabitLogs(modelFactory.buildLogList(record.getId()));//repetition id  which corresponds to Habit Log.
+        list.add(rep);
         observable.notifyListeners();
     }
 
     @Override
-    public List<Repetition> getByInterval(Timestamp timeFrom, Timestamp timeTo)
-    {
+    public List<Repetition> getByInterval(Timestamp timeFrom, Timestamp timeTo) {
         loadRecords();
         return list.getByInterval(timeFrom, timeTo);
     }
 
     @Override
     @Nullable
-    public Repetition getByTimestamp(Timestamp timestamp)
-    {
+    public Repetition getByTimestamp(Timestamp timestamp) {
         loadRecords();
         return list.getByTimestamp(timestamp);
     }
 
     @Override
-    public Repetition getOldest()
-    {
+    public Repetition getOldest() {
         loadRecords();
         return list.getOldest();
     }
 
     @Override
-    public Repetition getNewest()
-    {
+    public Repetition getNewest() {
         loadRecords();
         return list.getNewest();
     }
 
+    @Nullable
     @Override
-    public void remove(@NonNull Repetition repetition)
-    {
+    public Repetition getById(long id) {
+        return list.getById(id);
+    }
+
+    @Override
+    public void remove(@NonNull Repetition repetition) {
         loadRecords();
         list.remove(repetition);
         check(habit.getId());
         repository.execSQL(
-            "delete from repetitions where habit = ? and timestamp = ?",
-            habit.getId(), repetition.getTimestamp().getUnixTime());
+                "delete from repetitions where habit = ? and timestamp = ?",
+                habit.getId(), repetition.getTimestamp().getUnixTime());
         observable.notifyListeners();
     }
 
-    public void removeAll()
-    {
+    public void removeAll() {
         loadRecords();
         list.removeAll();
         check(habit.getId());
         repository.execSQL("delete from repetitions where habit = ?",
-            habit.getId());
+                habit.getId());
     }
 
     @Override
-    public long getTotalCount()
-    {
+    public long getTotalCount() {
         loadRecords();
         return list.getTotalCount();
     }
 
-    public void reload()
-    {
+    public void reload() {
         loaded = false;
     }
 
     @Contract("null -> fail")
-    private void check(Long value)
-    {
+    private void check(Long value) {
         if (value == null) throw new RuntimeException("null check failed");
     }
 }

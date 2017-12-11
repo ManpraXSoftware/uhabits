@@ -38,10 +38,6 @@ public class MemoryRepetitionList extends RepetitionList
         list = new ArrayList<>();
     }
 
-    @Override
-    public List<Repetition> getAll() {
-        return list;
-    }
 
     @Override
     public void add(Repetition repetition)
@@ -114,6 +110,17 @@ public class MemoryRepetitionList extends RepetitionList
         }
 
         return newestRep;
+    }
+
+    @Nullable
+    @Override
+    public Repetition getById(long id) {
+        for (Repetition r : list)
+        {
+            if (r.getId() == null) throw new IllegalStateException();
+            if (r.getId() == id) return r;
+        }
+        return null;
     }
 
     @Override

@@ -60,8 +60,8 @@ public class SQLModelFactory implements ModelFactory
     }
 
     @Override
-    public HabitLogList buildLogList(Repetition repetition) {
-        return new SQLiteHabitLogList(repetition,this);
+    public HabitLogList buildLogList(Long repetitionId) {
+        return new SQLiteHabitLogList(repetitionId,this);
     }
 
     @Override

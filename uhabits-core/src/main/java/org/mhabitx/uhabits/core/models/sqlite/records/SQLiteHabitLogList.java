@@ -29,10 +29,10 @@ public class SQLiteHabitLogList extends HabitLogList {
     private final MemoryHabitLogList list;
 
     private boolean loaded = false;
-    public SQLiteHabitLogList(@NonNull Repetition repetition,ModelFactory modelFactory) {
-        super(repetition);
+    public SQLiteHabitLogList(@NonNull Long repetitionId,ModelFactory modelFactory) {
+        super(repetitionId);
         this.modelFactory=modelFactory;
-        this.list= new MemoryHabitLogList(repetition);
+        this.list= new MemoryHabitLogList(repetitionId);
         this.repository= modelFactory.buildLogListRepository();
     }
     private void loadRecords()
@@ -40,10 +40,10 @@ public class SQLiteHabitLogList extends HabitLogList {
         if (loaded) return;
         loaded = true;
 
-        check(repetition.getId());
+        check(repetitionId);
         List<LogRecord> records =
                 repository.findAll("where repetition_id = ? order by timestamp",
-                        Long.toString(repetition.getId()));
+                        Long.toString(repetitionId));
 
         for (LogRecord rec : records)
             list.add(rec.toHabitLog());
@@ -52,9 +52,9 @@ public class SQLiteHabitLogList extends HabitLogList {
     public void add(HabitLog log) {
         loadRecords();
         list.add(log);
-        check(repetition.getId());
+        check(repetitionId);
         LogRecord record= new LogRecord();
-        record.repetitionId=repetition.getId();
+        record.repetitionId=repetitionId;
         record.copyFrom(log);
         repository.save(record);
         observable.notifyListeners();
@@ -91,10 +91,10 @@ public class SQLiteHabitLogList extends HabitLogList {
     public void remove(@NonNull HabitLog habitLog) {
         loadRecords();
         list.remove(habitLog);
-        check(repetition.getId());
+        check(repetitionId);
         repository.execSQL(
                 "delete from Logs where repetition_id = ? and timestamp = ?",
-                repetition.getId(), repetition.getTimestamp().getUnixTime());
+                repetitionId, habitLog.getTimestamp().getUnixTime());
         observable.notifyListeners();
     }
 
@@ -109,13 +109,13 @@ public class SQLiteHabitLogList extends HabitLogList {
     public void removeAll() {
         loadRecords();
         list.removeAll();
-        check(repetition.getId());
+        check(repetitionId);
         repository.execSQL("delete from Logs where repetition_id = ?",
-                repetition.getId());
+                repetitionId);
     }
     @Contract("null -> fail")
     private void check(Long value)
     {
-        if (value == null) throw new RuntimeException("null check failed");
+        //if (value == null) throw new RuntimeException("null check failed");
     }
 }

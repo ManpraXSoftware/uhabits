@@ -64,8 +64,8 @@ public class Habit
 
     @NonNull
     private RepetitionList repetitions;
-//    @NonNull
-//    private HabitLogList logs;
+    @NonNull
+    private List<HabitLogList> logs;
 
     @NonNull
     private CheckmarkList checkmarks;
@@ -86,10 +86,10 @@ public class Habit
         streaks = factory.buildStreakList(this);
         scores = factory.buildScoreList(this);
         repetitions = factory.buildRepetitionList(this);
+        logs =new ArrayList<>();
 //        for (Repetition rep:repetitions.getAll()){
-//            rep.setHabitLogs(factory.buildLogList(rep));
+//            logs.add(factory.buildLogList(rep));
 //        }
-//        logs = factory.buildLogList(this);
     }
 
     Habit(@NonNull ModelFactory factory, @NonNull HabitData data)
@@ -99,8 +99,9 @@ public class Habit
         streaks = factory.buildStreakList(this);
         scores = factory.buildScoreList(this);
         repetitions = factory.buildRepetitionList(this);
+        logs =new ArrayList<>();
 //        for (Repetition rep:repetitions.getAll()){
-//            rep.setHabitLogs(factory.buildLogList(rep));
+//            logs.add(factory.buildLogList(rep));
 //        }
         observable = new ModelObservable();
     }
@@ -364,6 +365,10 @@ public class Habit
     {
         data.position = newPosition;
     }
+
+//    public HabitLogList getLogListOf(Repetition rep) {
+//        logs.get();
+//    }
 
     public static final class HabitData
     {
