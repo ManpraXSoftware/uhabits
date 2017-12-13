@@ -166,21 +166,27 @@ public class EditHabitDialog extends AppCompatDialogFragment
     void onSaveButtonClick()
     {
         int type = getTypeFromArguments();
-
         if (!namePanel.validate()) return;
         if (type == Habit.YES_NO_HABIT && !frequencyPanel.validate()) return;
         if (type == Habit.NUMBER_HABIT && !targetPanel.validate()) return;
+
+        //check here if drop down option is any time then change it to Multiple type habit
+        if (frequencyPanel.isAnyTime()){
+            type=Habit.MULTIPLE_HABIT;
+        }else{   //reset to YES NO TYPE
+            type=Habit.YES_NO_HABIT;
+        }
         if (type == Habit.MULTIPLE_HABIT && !frequencyPanel.validateTarget()) return;
 
         Habit habit = modelFactory.buildHabit();
+        habit.setType(type);
         habit.setName(namePanel.getName());
         habit.setDescription(namePanel.getDescription());
         habit.setColor(namePanel.getColor());
         habit.setReminder(reminderPanel.getReminder());
         habit.setFrequency(frequencyPanel.getFrequency());
         habit.setUnit(targetPanel.getUnit());
-        habit.setTargetValue(targetPanel.getTargetValue());
-        habit.setType(type);
+        habit.setTargetValue(habit.isMultiple()?frequencyPanel.getTarget():targetPanel.getTargetValue());
         HLogger.m(habit.toString());
         saveHabit(habit);
         dismiss();
@@ -212,9 +218,12 @@ public class EditHabitDialog extends AppCompatDialogFragment
 
         if (habit.isNumerical()) frequencyPanel.setVisibility(GONE);
         else targetPanel.setVisibility(GONE);
+//        if (habit.isMultiple()) frequencyPanel.setVisibility(GONE);   //if habit is multiple the switch target value
+//        else frequencyPanel.setVisibility(GONE);
 
         namePanel.populateFrom(habit);
         frequencyPanel.setFrequency(habit.getFrequency());
+        frequencyPanel.setTargetValue(habit.getTargetValue());
         targetPanel.setTargetValue(habit.getTargetValue());
         targetPanel.setUnit(habit.getUnit());
         if (habit.hasReminder()) reminderPanel.setReminder(habit.getReminder());

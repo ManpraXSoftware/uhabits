@@ -19,24 +19,30 @@
 
 package org.mhabitx.uhabits.activities.habits.edit.views;
 
-import android.annotation.*;
-import android.content.*;
-import android.content.res.*;
-import android.support.annotation.*;
-import android.util.*;
-import android.view.*;
-import android.widget.*;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.Resources;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.mhabitx.uhabits.R;
-import org.mhabitx.uhabits.core.models.*;
+import org.mhabitx.uhabits.core.models.Frequency;
 
-import butterknife.*;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnItemSelected;
 
-import static org.mhabitx.uhabits.R.id.*;
+import static org.mhabitx.uhabits.R.id.numerator;
 
 
-public class FrequencyPanel extends FrameLayout
-{
+public class FrequencyPanel extends FrameLayout {
     @BindView(numerator)
     TextView tvNumerator;
 
@@ -56,8 +62,7 @@ public class FrequencyPanel extends FrameLayout
     ViewGroup targetLayout;
 
     public FrequencyPanel(@NonNull Context context,
-                          @Nullable AttributeSet attrs)
-    {
+                          @Nullable AttributeSet attrs) {
         super(context, attrs);
 
         View view = inflate(context, R.layout.edit_habit_frequency, null);
@@ -66,13 +71,11 @@ public class FrequencyPanel extends FrameLayout
     }
 
     @NonNull
-    public Frequency getFrequency()
-    {
+    public Frequency getFrequency() {
         String freqNum = tvNumerator.getText().toString();
         String freqDen = tvDenominator.getText().toString();
 
-        if (!freqNum.isEmpty() && !freqDen.isEmpty())
-        {
+        if (!freqNum.isEmpty() && !freqDen.isEmpty()) {
             int numerator = Integer.parseInt(freqNum);
             int denominator = Integer.parseInt(freqDen);
             return new Frequency(numerator, denominator);
@@ -82,8 +85,7 @@ public class FrequencyPanel extends FrameLayout
     }
 
     @SuppressLint("SetTextI18n")
-    public void setFrequency(@NonNull Frequency freq)
-    {
+    public void setFrequency(@NonNull Frequency freq) {
         int position = getQuickSelectPosition(freq);
 
         if (position >= 0) showSimplifiedFrequency(position);
@@ -92,41 +94,42 @@ public class FrequencyPanel extends FrameLayout
         tvNumerator.setText(Integer.toString(freq.getNumerator()));
         tvDenominator.setText(Integer.toString(freq.getDenominator()));
     }
-public int getTarget(){
-        String targetText=targetEditText.getText().toString();
-        if(targetText.isEmpty()){
+
+    public int getTarget() {
+        String targetText = targetEditText.getText().toString();
+        if (targetText.isEmpty()) {
             return Integer.parseInt(getResources().getString(R.string.default_target));    ///default target
         }
         return Integer.parseInt(targetText);
-}
+    }
+    public void setTargetValue(double targetValue){
+        targetEditText.setText(String.valueOf(Double.valueOf(targetValue).intValue()));
+    }
+
     @OnItemSelected(R.id.spinner)
-    public void onFrequencySelected(int position)
-    {
+    public void onFrequencySelected(int position) {
         if (position < 0 || position > 5) throw new IllegalArgumentException();
-        int freqNums[] = { 24,1, 1, 2, 5, 3 };
-        int freqDens[] = { 1,1, 7, 7, 7, 7 };
+        int freqNums[] = {72, 1, 1, 2, 5, 3};
+        int freqDens[] = {1, 1, 7, 7, 7, 7};
         setFrequency(new Frequency(freqNums[position], freqDens[position]));
     }
 
-    public boolean validate()
-    {
+    public boolean validate() {
         boolean valid = true;
         Resources res = getResources();
 
         String freqNum = tvNumerator.getText().toString();
         String freqDen = tvDenominator.getText().toString();
 
-        if (freqDen.isEmpty())
-        {
+        if (freqDen.isEmpty()) {
             tvDenominator.setError(
-                res.getString(R.string.validation_show_not_be_blank));
+                    res.getString(R.string.validation_show_not_be_blank));
             valid = false;
         }
 
-        if (freqNum.isEmpty())
-        {
+        if (freqNum.isEmpty()) {
             tvNumerator.setError(
-                res.getString(R.string.validation_show_not_be_blank));
+                    res.getString(R.string.validation_show_not_be_blank));
             valid = false;
         }
 
@@ -135,10 +138,9 @@ public int getTarget(){
         int numerator = Integer.parseInt(freqNum);
         int denominator = Integer.parseInt(freqDen);
 
-        if (numerator <= 0)
-        {
+        if (numerator <= 0) {
             tvNumerator.setError(
-                res.getString(R.string.validation_number_should_be_positive));
+                    res.getString(R.string.validation_number_should_be_positive));
             valid = false;
         }
 
@@ -151,13 +153,24 @@ public int getTarget(){
 
         return valid;
     }
-public boolean validateTarget(){   //It's validate target field
-    boolean valid = true;
-    Resources res = getResources();
-    return valid;
-}
-    private int getQuickSelectPosition(@NonNull Frequency freq)
-    {
+
+    public boolean isAnyTime() {
+        return spinner.getSelectedItemPosition()==0;
+    }
+
+    public boolean validateTarget() {   //It's validate target field
+        boolean valid = true;
+        Resources res = getResources();
+        String count=targetEditText.getText().toString();
+        if (count.isEmpty()) {
+            targetEditText.setError(
+                    res.getString(R.string.validation_show_not_be_blank));
+            valid = false;
+        }
+        return valid;
+    }
+
+    private int getQuickSelectPosition(@NonNull Frequency freq) {
         if (freq.equals(Frequency.ANY_TIME)) return 0;      //adapter position of any time
         if (freq.equals(Frequency.DAILY)) return 1;
         if (freq.equals(Frequency.WEEKLY)) return 2;
@@ -166,23 +179,23 @@ public boolean validateTarget(){   //It's validate target field
         return -1;
     }
 
-    private void showCustomFrequency()
-    {
+    private void showCustomFrequency() {
         spinner.setVisibility(View.GONE);
         customFreqPanel.setVisibility(View.VISIBLE);
         targetLayout.setVisibility(GONE);//also hide target panel
     }
-    private void showTargetPanel(){
 
-   }
-    private void showSimplifiedFrequency(int quickSelectPosition)
-    {
+    private void showTargetPanel() {
+
+    }
+
+    private void showSimplifiedFrequency(int quickSelectPosition) {
         spinner.setVisibility(View.VISIBLE);
         spinner.setSelection(quickSelectPosition);
         customFreqPanel.setVisibility(View.GONE);
-        if (quickSelectPosition==0) {//make target panel visible here
+        if (quickSelectPosition == 0) {//make target panel visible here
             targetLayout.setVisibility(VISIBLE);
-        }else{
+        } else {
             targetLayout.setVisibility(GONE);
         }
     }

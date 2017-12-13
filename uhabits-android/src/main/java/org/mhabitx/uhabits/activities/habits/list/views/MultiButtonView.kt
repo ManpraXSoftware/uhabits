@@ -12,6 +12,7 @@ import org.mhabitx.androidbase.utils.InterfaceUtils
 import org.mhabitx.androidbase.utils.StyledResources
 import org.mhabitx.uhabits.R
 import org.mhabitx.uhabits.core.preferences.Preferences
+import org.mhabitx.uhabits.utils.showMessage
 
 /**
  * Created by Mukesh Kumar Maurya on 07-12-2017.
@@ -23,7 +24,12 @@ class MultiButtonView(
 ) : View(context),
         View.OnClickListener,
         View.OnLongClickListener {
-
+    init {
+        isFocusable = false
+        setOnClickListener(this)
+        setOnLongClickListener(this)
+        isHapticFeedbackEnabled = true
+    }
     var color: Int = Color.BLACK
         set(value) {
             field = value
@@ -46,16 +52,29 @@ class MultiButtonView(
         }
 
     var onTap: () -> Unit = {}
+    var onLongTap: () -> Unit = {}
     private var drawer = Drawer()
 
 
     override fun onClick(v: View) {
-
+        if (value < limit) { //target<=Limit
+            value++
+            onTap()
+            showMessage("taped -> value: "+value)
+            invalidate()
+        }else showMessage("Limit must not exceed.")
     }
 
+
     override fun onLongClick(v: View): Boolean {
-        performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-        return true;
+        if (value > 0) {
+            value--
+            performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+            showMessage("longTapped-> value: "+value)
+            onLongTap()
+            invalidate()
+        }else showMessage("Value must be positive.")
+        return true
     }
 
     override fun onDraw(canvas: Canvas) {

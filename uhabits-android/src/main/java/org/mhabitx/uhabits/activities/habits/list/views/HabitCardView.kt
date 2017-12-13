@@ -19,37 +19,51 @@
 
 package org.mhabitx.uhabits.activities.habits.list.views
 
-import android.content.*
-import android.os.*
-import android.os.Build.VERSION.*
-import android.os.Build.VERSION_CODES.*
-import android.text.*
-import android.view.*
-import android.view.ViewGroup.LayoutParams.*
-import android.widget.*
-import com.google.auto.factory.*
-import org.mhabitx.androidbase.activities.*
-import org.mhabitx.uhabits.*
-import org.mhabitx.uhabits.activities.common.views.*
-import org.mhabitx.uhabits.core.models.*
-import org.mhabitx.uhabits.core.ui.screens.habits.list.*
-import org.mhabitx.uhabits.core.utils.*
-import org.mhabitx.uhabits.utils.*
+import android.content.Context
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.LOLLIPOP
+import android.os.Build.VERSION_CODES.M
+import android.os.Handler
+import android.os.Looper
+import android.text.Layout
+import android.text.TextUtils
+import android.view.Gravity
+import android.view.View
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.TextView
+import com.google.auto.factory.AutoFactory
+import com.google.auto.factory.Provided
+import org.mhabitx.androidbase.activities.ActivityContext
+import org.mhabitx.uhabits.R
+import org.mhabitx.uhabits.activities.common.views.RingView
+import org.mhabitx.uhabits.core.models.Habit
+import org.mhabitx.uhabits.core.models.ModelObservable
+import org.mhabitx.uhabits.core.models.Timestamp
+import org.mhabitx.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
+import org.mhabitx.uhabits.core.utils.DateUtils
+import org.mhabitx.uhabits.utils.PaletteUtils
+import org.mhabitx.uhabits.utils.dp
+import org.mhabitx.uhabits.utils.sres
 
 @AutoFactory
 class HabitCardView(
         @Provided @ActivityContext context: Context,
         @Provided private val checkmarkPanelFactory: CheckmarkPanelViewFactory,
         @Provided private val numberPanelFactory: NumberPanelViewFactory,
+        @Provided private val multiTypePanelFactory: MultiTypePanelViewFactory,
         @Provided private val behavior: ListHabitsBehavior
 ) : FrameLayout(context),
-    ModelObservable.Listener {
+        ModelObservable.Listener {
 
     var buttonCount
         get() = checkmarkPanel.buttonCount
         set(value) {
             checkmarkPanel.buttonCount = value
             numberPanel.buttonCount = value
+            multiPanel.buttonCount = value
         }
 
     var dataOffset = 0
@@ -57,6 +71,7 @@ class HabitCardView(
             field = value
             checkmarkPanel.dataOffset = value
             numberPanel.dataOffset = value
+            multiPanel.dataOffset = value
         }
 
     var habit: Habit? = null
@@ -87,16 +102,19 @@ class HabitCardView(
         set(values) {
             checkmarkPanel.values = values
             numberPanel.values = values.map { it / 1000.0 }.toDoubleArray()
+            multiPanel.values = values
         }
 
     var threshold: Double
         get() = numberPanel.threshold
         set(value) {
             numberPanel.threshold = value
+            multiPanel.target = value.toInt()
         }
 
     private var checkmarkPanel: CheckmarkPanelView
     private var numberPanel: NumberPanelView
+    private var multiPanel: MultiTypePanelView
     private var innerFrame: LinearLayout
     private var label: TextView
     private var scoreRing: RingView
@@ -134,6 +152,17 @@ class HabitCardView(
                 habit?.let { behavior.onEdit(it, timestamp) }
             }
         }
+        multiPanel = multiTypePanelFactory.create().apply {
+            visibility = GONE
+            onTap = { timestamp ->
+                triggerRipple(timestamp)
+                habit?.let { behavior.onChange(it, timestamp,true) }
+            }
+            onLongTap = { timestamp ->
+                triggerRipple(timestamp)
+                habit?.let { behavior.onChange(it, timestamp,false) }
+            }
+        }
 
         innerFrame = LinearLayout(context).apply {
             gravity = Gravity.CENTER_VERTICAL
@@ -145,6 +174,7 @@ class HabitCardView(
             addView(label)
             addView(checkmarkPanel)
             addView(numberPanel)
+            addView(multiPanel)
 
             setOnTouchListener { v, event ->
                 if (SDK_INT >= LOLLIPOP)
@@ -174,9 +204,16 @@ class HabitCardView(
     fun triggerRipple(timestamp: Timestamp) {
         val today = DateUtils.getToday()
         val offset = timestamp.daysUntil(today) - dataOffset
-        val button = checkmarkPanel.buttons[offset]
+        val button: View = when (habit?.isMultiple) {
+            true -> multiPanel.buttons[offset]
+            else -> checkmarkPanel.buttons[offset]
+        }
         val y = button.height / 2.0f
-        val x = checkmarkPanel.x + button.x + (button.width / 2).toFloat()
+        val x = when (habit?.isMultiple) {
+            true -> multiPanel.x + button.x + (button.width / 2).toFloat()
+            else -> checkmarkPanel.x + button.x + (button.width / 2).toFloat()
+        }
+
         triggerRipple(x, y)
     }
 
@@ -209,9 +246,18 @@ class HabitCardView(
         }
         checkmarkPanel.apply {
             color = c
-            visibility = when (h.isNumerical) {
+            visibility = when (h.isNumerical || h.isMultiple) {
                 true -> View.GONE
                 false -> View.VISIBLE
+            }
+        }
+        multiPanel.apply {
+            color = c
+            limit=h.frequency.numerator
+            target = h.targetValue.toInt()
+            visibility = when (h.isMultiple) {
+                true -> View.VISIBLE
+                false -> View.GONE
             }
         }
         numberPanel.apply {
@@ -229,7 +275,7 @@ class HabitCardView(
         val background = innerFrame.background
         if (SDK_INT >= LOLLIPOP) background.setHotspot(x, y)
         background.state = intArrayOf(android.R.attr.state_pressed,
-                                      android.R.attr.state_enabled)
+                android.R.attr.state_enabled)
         Handler().postDelayed({ background.state = intArrayOf() }, 25)
     }
 

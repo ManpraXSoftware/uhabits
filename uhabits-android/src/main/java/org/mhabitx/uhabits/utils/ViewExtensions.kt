@@ -82,6 +82,17 @@ fun View.showMessage(@StringRes stringId: Int) {
         return
     }
 }
+fun View.showMessage(msg:String) {
+    try {
+        val snackbar = Snackbar.make(this, msg, Snackbar.LENGTH_SHORT)
+        val tvId = android.support.design.R.id.snackbar_text
+        val tv = snackbar.view.findViewById(tvId)
+        if(tv is TextView) tv.setTextColor(Color.WHITE)
+        snackbar.show()
+    } catch (e: IllegalArgumentException) {
+        return
+    }
+}
 
 fun Int.toMeasureSpec(mode: Int) =
         View.MeasureSpec.makeMeasureSpec(this, mode)

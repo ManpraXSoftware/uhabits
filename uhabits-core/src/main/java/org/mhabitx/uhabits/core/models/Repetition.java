@@ -45,9 +45,9 @@ public final class Repetition {
      * For boolean habits, this always equals Checkmark.CHECKED_EXPLICITLY.
      * For numerical habits, this number is stored in thousandths. That
      * is, if the user enters value 1.50 on the app, it is here stored as 1500.
-     * For multiple habits, it should be number of logs each day perform
+     * For multiple type habits, it should be number of logs each day perform
      */
-    private final int value;
+    private int value;
     /**
      * For multiple habits, this is what we want to achieve.
      */
@@ -94,6 +94,10 @@ public final class Repetition {
 
     public int getValue() {
         return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 
     public int getTarget() {

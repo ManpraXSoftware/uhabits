@@ -68,6 +68,8 @@ public class SQLiteRepetitionList extends RepetitionList {
         //init mx habit logs
         for (RepetitionRecord rec : records) {
             Repetition rep = rec.toRepetition();                       //modelFactory.buildLogList() create a collection for table item & memory item.
+            rep.setLimit(habit.getFrequency().getNumerator());
+            rep.setTarget((int)habit.getTargetValue());
             rep.setHabitLogs(modelFactory.buildLogList(rec.getId()));  //repetition id  which corresponds to Habit Log.
             list.add(rep);
         }

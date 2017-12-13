@@ -113,6 +113,12 @@ public class SQLiteHabitLogList extends HabitLogList {
         repository.execSQL("delete from Logs where repetition_id = ?",
                 repetitionId);
     }
+
+    @Override
+    public int size() {
+        return list.size();
+    }
+
     @Contract("null -> fail")
     private void check(Long value)
     {

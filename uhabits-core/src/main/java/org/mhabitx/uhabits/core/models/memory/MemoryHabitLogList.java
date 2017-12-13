@@ -109,4 +109,9 @@ public class MemoryHabitLogList extends HabitLogList {
         list.clear();
         getObservable().notifyListeners();
     }
+
+    @Override
+    public int size() {
+        return list.size();
+    }
 }

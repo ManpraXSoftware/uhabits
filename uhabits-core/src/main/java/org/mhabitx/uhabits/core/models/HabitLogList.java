@@ -181,18 +181,6 @@ public abstract class HabitLogList {
     {
         HabitLog log=new HabitLog(timestamp, Checkmark.CHECKED_EXPLICITLY);
         add(log);
-//        if(habit.isNumerical())
-//            throw new IllegalStateException("habit must NOT be numerical");
-//
-//        Repetition rep = getByTimestamp(timestamp);
-//        if (rep != null) remove(rep);
-//        else
-//        {
-//            rep = new Repetition(timestamp, Checkmark.CHECKED_EXPLICITLY);
-//            add(rep);
-//        }
-//
-//        habit.invalidateNewerThan(timestamp);
         return log;
     }
 
@@ -213,4 +201,10 @@ public abstract class HabitLogList {
 //    }
 
     public abstract void removeAll();
+    /**
+     * Returns the number of habits in this list.
+     *
+     * @return number of habits
+     */
+    public abstract int size();
 }

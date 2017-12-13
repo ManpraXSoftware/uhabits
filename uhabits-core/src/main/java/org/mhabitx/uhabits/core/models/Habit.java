@@ -350,6 +350,10 @@ public class Habit
     {
         return data.type == NUMBER_HABIT;
     }
+    public synchronized boolean isMultiple()
+    {
+        return data.type == MULTIPLE_HABIT;
+    }
 
     public HabitData getData()
     {
