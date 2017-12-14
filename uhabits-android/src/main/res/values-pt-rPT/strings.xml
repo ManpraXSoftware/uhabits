@@ -151,4 +151,5 @@
   <string name="score">Pontuação</string>
   <string name="reminder_sound">Som do lembrete</string>
   <string name="none">Silencioso</string>
+    <string name="validation_show_target_not_exceed_limit">Target count should not exceed limit of %d</string>
 </resources>

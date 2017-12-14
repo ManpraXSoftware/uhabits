@@ -175,4 +175,5 @@
   <string name="by_score">Puntuen arabera</string>
   <string name="download">Deskargatu</string>
   <string name="export">Esportatu</string>
+    <string name="validation_show_target_not_exceed_limit">Target count should not exceed limit of %d</string>
 </resources>

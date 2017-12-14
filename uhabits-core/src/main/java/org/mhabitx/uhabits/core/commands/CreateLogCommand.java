@@ -3,10 +3,14 @@ package org.mhabitx.uhabits.core.commands;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import org.mhabitx.uhabits.core.models.Checkmark;
+import org.mhabitx.uhabits.core.models.Habit;
+import org.mhabitx.uhabits.core.models.HabitList;
 import org.mhabitx.uhabits.core.models.HabitLog;
 import org.mhabitx.uhabits.core.models.Repetition;
 import org.mhabitx.uhabits.core.models.RepetitionList;
 import org.mhabitx.uhabits.core.models.Timestamp;
+import org.mhabitx.uhabits.core.utils.DateUtils;
 
 /**
  * Created by Prateek on 11-12-2017.
@@ -15,27 +19,40 @@ import org.mhabitx.uhabits.core.models.Timestamp;
  * Command to create a habit log.
  */
 public class CreateLogCommand extends Command {
+
+     Repetition repetition;
     @NonNull
-    final Repetition repetition;
+    final Habit habit;
     final Timestamp timestamp;
-    final int value;
+    int value;
+    boolean isAdd=false;
     @Nullable
     HabitLog previousLog;
     @Nullable
     HabitLog newLog;
 
-    public CreateLogCommand(Repetition repetition, Timestamp timestamp, int value) {
-        this.repetition = repetition;
+    public CreateLogCommand(Habit habit, Timestamp timestamp,boolean isAdd) {
+        this.habit =habit ;
         this.timestamp = timestamp;
-        this.value = value;
+        this.isAdd=isAdd;
     }
 
     @Override
     public void execute() {
-        //create new log
-        newLog=new HabitLog(timestamp,value);
-        //add into list
-        repetition.getHabitLogs().add(newLog);
+        RepetitionList repetitionList=habit.getRepetitions();
+        repetition=repetitionList.getByTimestamp(timestamp);
+        if (isAdd){// tap   --> add Habit log corresponding to repetition
+            if (repetition==null){//its first tap ->first create repetition and then
+                repetition = new Repetition(timestamp, Checkmark.UNCHECKED);
+                repetitionList.add(repetition);
+            }
+            repetition.getHabitLogs().add(new HabitLog(DateUtils.getCorrectLogTime(timestamp),Checkmark.CHECKED_EXPLICITLY));
+        }else{//Long tap   --> remove last Habit Log from corresponding to repetition
+            if (repetition!=null&&repetition.getHabitLogs()!=null)
+                repetition.getHabitLogs().remove(repetition.getHabitLogs().getNewest());
+        }
+        repetition.setValue(repetition.getHabitLogs().size());
+        habit.invalidateNewerThan(timestamp);
     }
 
     @NonNull
@@ -49,7 +66,7 @@ public class CreateLogCommand extends Command {
         if(newLog == null) throw new IllegalStateException();
         repetition.getHabitLogs().remove(newLog);
         if (previousLog != null) repetition.getHabitLogs().add(previousLog);
-       // repetition.invalidateNewerThan(timestamp);
+        habit.invalidateNewerThan(timestamp);
     }
     public static class Record
     {
@@ -62,6 +79,7 @@ public class CreateLogCommand extends Command {
         public long repetitionId;
 
         public long logTimestamp;
+        public Habit habit;
 
         public int value;
 
@@ -71,18 +89,19 @@ public class CreateLogCommand extends Command {
             Long repId = command.repetition.getId();
             if(repId == null) throw new RuntimeException("Repetition not saved");
             this.repetitionId = repId;
+            this.habit=command.habit;
             this.logTimestamp = command.timestamp.getUnixTime();
             this.value = command.value;
         }
 
-        public CreateLogCommand toCommand(@NonNull RepetitionList repetitionList)
+        public CreateLogCommand toCommand(@NonNull HabitList hList)
         {
-            Repetition r = repetitionList.getById(repetitionId);
+            Repetition r = habit.getRepetitions().getById(repetitionId);
             if(r == null) throw new RuntimeException("Repetition not found");
 
             CreateLogCommand command;
             command = new CreateLogCommand(
-                    r, new Timestamp(logTimestamp), value);
+                    habit, new Timestamp(logTimestamp),true);//
             command.setId(id);
             return command;
         }

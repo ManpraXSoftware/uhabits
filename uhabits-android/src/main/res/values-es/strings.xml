@@ -175,4 +175,5 @@
   <string name="by_score">Por puntuación</string>
   <string name="download">Descargar</string>
   <string name="export">Exportar</string>
+    <string name="validation_show_target_not_exceed_limit">Target count should not exceed limit of %d</string>
 </resources>

@@ -68,11 +68,17 @@ public class SQLiteRepetitionList extends RepetitionList {
         //init mx habit logs
         for (RepetitionRecord rec : records) {
             Repetition rep = rec.toRepetition();                       //modelFactory.buildLogList() create a collection for table item & memory item.
-            rep.setLimit(habit.getFrequency().getNumerator());
-            rep.setTarget((int)habit.getTargetValue());
-            rep.setHabitLogs(modelFactory.buildLogList(rec.getId()));  //repetition id  which corresponds to Habit Log.
+             initMultipleParams(rep);
             list.add(rep);
         }
+    }
+
+    private void initMultipleParams(Repetition rep) {
+        rep.setLimit(habit.getFrequency().getNumerator());
+        rep.setTarget((int) habit.getTargetValue());
+        rep.setHabitLogs(modelFactory.buildLogList(rep.getId()));  //repetition id  which corresponds to Habit Log.
+        if (habit.isMultiple())//in case of multiple type repetition value will be size of log list.
+        rep.setValue(rep.getHabitLogs().size());
     }
 
     @Override
@@ -84,7 +90,7 @@ public class SQLiteRepetitionList extends RepetitionList {
         record.copyFrom(rep);
         repository.save(record);
         rep.setId(record.getId());
-        rep.setHabitLogs(modelFactory.buildLogList(record.getId()));//repetition id  which corresponds to Habit Log.
+        initMultipleParams(rep);
         list.add(rep);
         observable.notifyListeners();
     }

@@ -175,4 +175,5 @@
   <string name="by_score">Według wyniku</string>
   <string name="download">Pobierz</string>
   <string name="export">Eksportuj</string>
+    <string name="validation_show_target_not_exceed_limit">Target count should not exceed limit of %d</string>
 </resources>

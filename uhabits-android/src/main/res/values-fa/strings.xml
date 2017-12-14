@@ -175,4 +175,5 @@
   <string name="by_score">بر اساس امتیاز</string>
   <string name="download">بارگيری</string>
   <string name="export">صدور</string>
+    <string name="validation_show_target_not_exceed_limit">Target count should not exceed limit of %d</string>
 </resources>

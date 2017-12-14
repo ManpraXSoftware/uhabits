@@ -133,5 +133,6 @@
   <string name="bug_report_failed">Generare raport de erori nereușită.</string>
   <string name="generate_bug_report">Generează raport de erori</string>
   <string name="troubleshooting">Depanare</string>
-  <!-- Middle part of the sentence '1 time in xx days' -->
+    <string name="validation_show_target_not_exceed_limit">Target count should not exceed limit of %d</string>
+    <!-- Middle part of the sentence '1 time in xx days' -->
 </resources>

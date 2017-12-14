@@ -21,4 +21,5 @@
 <resources>
   <!-- App introduction -->
   <!-- Middle part of the sentence '1 time in xx days' -->
+    <string name="validation_show_target_not_exceed_limit">Target count should not exceed limit of %d</string>
 </resources>

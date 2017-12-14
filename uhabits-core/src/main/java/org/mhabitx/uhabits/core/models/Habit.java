@@ -412,7 +412,7 @@ public class Habit
             this.name = "";
             this.description = "";
             this.targetType = AT_LEAST;
-            this.targetValue = 100;
+            this.targetValue = 50;
             this.unit = "";
             this.position = 0;
         }

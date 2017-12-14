@@ -151,4 +151,5 @@
   <string name="score">Point</string>
   <string name="reminder_sound">Påmindelse lyd</string>
   <string name="none">Ingen</string>
+    <string name="validation_show_target_not_exceed_limit">Target count should not exceed limit of %d</string>
 </resources>

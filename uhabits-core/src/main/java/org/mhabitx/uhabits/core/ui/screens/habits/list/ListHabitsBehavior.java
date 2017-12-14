@@ -157,22 +157,9 @@ public class ListHabitsBehavior
     }
     public void onChange(@NonNull Habit habit, Timestamp timestamp,boolean isTap)
     {
-        RepetitionList repetitionList=habit.getRepetitions();
-        Repetition rep=repetitionList.getByTimestamp(timestamp);
-        if (isTap){// tap   --> add Habit log corresponding to repetition
-            if (rep==null){//its first tap ->first create repetition and then
-                rep = new Repetition(timestamp, Checkmark.UNCHECKED);
-                repetitionList.add(rep);
-            }
-                rep.getHabitLogs().add(new HabitLog(DateUtils.getCorrectLogTime(timestamp),Checkmark.CHECKED_EXPLICITLY));
-        }else{//Long tap   --> remove last Habit Log from corresponding to repetition
-            if (rep!=null&&rep.getHabitLogs()!=null)
-            rep.getHabitLogs().remove(rep.getHabitLogs().getNewest());
-        }
-        rep.setValue(rep.getHabitLogs().size());
-//        commandRunner.execute(
-//                new CreateLogCommand(habitList, habit, timestamp),
-//                habit.getId());
+        commandRunner.execute(
+                new CreateLogCommand(habit, timestamp,isTap),
+                habit.getId());
     }
 
     public enum Message

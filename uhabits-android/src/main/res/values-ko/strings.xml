@@ -175,4 +175,5 @@
   <string name="by_score">점수 순으로</string>
   <string name="download">다운로드</string>
   <string name="export">내보내기</string>
+    <string name="validation_show_target_not_exceed_limit">Target count should not exceed limit of %d</string>
 </resources>

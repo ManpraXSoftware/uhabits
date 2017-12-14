@@ -34,6 +34,7 @@ public class SQLiteHabitLogList extends HabitLogList {
         this.modelFactory=modelFactory;
         this.list= new MemoryHabitLogList(repetitionId);
         this.repository= modelFactory.buildLogListRepository();
+        loadRecords();
     }
     private void loadRecords()
     {
@@ -54,8 +55,8 @@ public class SQLiteHabitLogList extends HabitLogList {
         list.add(log);
         check(repetitionId);
         LogRecord record= new LogRecord();
-        record.repetitionId=repetitionId;
         record.copyFrom(log);
+        record.repetitionId=repetitionId;
         repository.save(record);
         observable.notifyListeners();
     }

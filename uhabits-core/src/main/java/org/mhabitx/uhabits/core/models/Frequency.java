@@ -31,7 +31,7 @@ import static org.mhabitx.uhabits.core.utils.StringUtils.defaultToStringStyle;
 @ThreadSafe
 public class Frequency
 {
-    public static final Frequency ANY_TIME = new Frequency(24, 1);
+    public static final Frequency ANY_TIME = new Frequency(72, 1);
     public static final Frequency DAILY = new Frequency(1, 1);
 
     public static final Frequency FIVE_TIMES_PER_WEEK = new Frequency(5, 7);

@@ -221,4 +221,5 @@ repetitions की संख्या\"</string>
   <string name="by_score">स्कोर से</string>
   <string name="download">डाउनलोड</string>
   <string name="export">एक्सपोर्ट करे</string>
+    <string name="validation_show_target_not_exceed_limit">Target count should not exceed limit of %d</string>
 </resources>

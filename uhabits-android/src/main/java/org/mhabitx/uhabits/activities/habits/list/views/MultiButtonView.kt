@@ -60,7 +60,7 @@ class MultiButtonView(
         if (value < limit) { //target<=Limit
             value++
             onTap()
-            showMessage("taped -> value: "+value)
+        //    showMessage("taped -> value: "+value)
             invalidate()
         }else showMessage("Limit must not exceed.")
     }
@@ -70,7 +70,7 @@ class MultiButtonView(
         if (value > 0) {
             value--
             performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-            showMessage("longTapped-> value: "+value)
+          //  showMessage("longTapped-> value: "+value)
             onLongTap()
             invalidate()
         }else showMessage("Value must be positive.")

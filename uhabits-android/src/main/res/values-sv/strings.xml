@@ -175,4 +175,5 @@
   <string name="by_score">Efter poäng</string>
   <string name="download">Ladda ner</string>
   <string name="export">Exportera</string>
+    <string name="validation_show_target_not_exceed_limit">Target count should not exceed limit of %d</string>
 </resources>

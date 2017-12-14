@@ -175,4 +175,5 @@
   <string name="by_score">Po rezultatu</string>
   <string name="download">Prenesi</string>
   <string name="export">Izvozi</string>
+    <string name="validation_show_target_not_exceed_limit">Target count should not exceed limit of %d</string>
 </resources>

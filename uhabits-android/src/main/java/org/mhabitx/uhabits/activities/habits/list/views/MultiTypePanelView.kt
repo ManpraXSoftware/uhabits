@@ -36,7 +36,7 @@ class MultiTypePanelView(@Provided @ActivityContext context: Context,
             field = value
             setupButtons()
         }
-    var limit: Int = 72
+    var limit: Int = 0
         set(value) {
             field = value
             setupButtons()

@@ -175,4 +175,5 @@
   <string name="by_score">Puan</string>
   <string name="download">İndir</string>
   <string name="export">Dışarı aktar</string>
+    <string name="validation_show_target_not_exceed_limit">Target count should not exceed limit of %d</string>
 </resources>

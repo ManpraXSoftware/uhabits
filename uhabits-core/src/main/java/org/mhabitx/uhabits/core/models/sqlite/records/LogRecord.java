@@ -14,7 +14,7 @@ import org.mhabitx.uhabits.core.models.Timestamp;
  */
 @Table(name = "Logs")
 public class LogRecord {
-    public RepetitionRecord repetitionRecord;
+//    public RepetitionRecord repetitionRecord;
 
     @Column(name = "repetition_id")
     public Long repetitionId;

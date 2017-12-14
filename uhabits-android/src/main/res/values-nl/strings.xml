@@ -175,4 +175,5 @@
   <string name="by_score">Bij score</string>
   <string name="download">Downloaden</string>
   <string name="export">Exporteren</string>
+    <string name="validation_show_target_not_exceed_limit">Target count should not exceed limit of %d</string>
 </resources>

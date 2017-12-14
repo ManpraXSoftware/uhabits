@@ -175,4 +175,5 @@
   <string name="by_score">根據分數</string>
   <string name="download">下載</string>
   <string name="export">匯出</string>
+    <string name="validation_show_target_not_exceed_limit">Target count should not exceed limit of %d</string>
 </resources>
