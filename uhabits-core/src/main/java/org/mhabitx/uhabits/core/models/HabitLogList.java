@@ -99,7 +99,16 @@ public abstract class HabitLogList {
      */
     @Nullable
     public abstract HabitLog getOldest();
-
+    /**
+     * Returns the last HabitLog in the list.
+     * <p>
+     * If the list is empty, returns null. HabitLogs in the future are
+     * discarded.
+     *
+     * @return last HabitLog in the list, or null if list is empty.
+     */
+    @Nullable
+    public abstract HabitLog getLast();
     @Nullable
     /**
      * Returns the newest HabitLog in the list.

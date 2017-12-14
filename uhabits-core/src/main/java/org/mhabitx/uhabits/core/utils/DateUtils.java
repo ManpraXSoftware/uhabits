@@ -64,19 +64,19 @@ public abstract class DateUtils {
     public static Timestamp getCorrectLogTime(Timestamp timestamp) {
         if (timestamp.isToday()) {
             return getCurrentTimestamp();
-        }
-        try {
-            SimpleDateFormat df = new SimpleDateFormat("hh:mm", Locale.getDefault());
-            timestamp.toCalendar().setTime(df.parse("23:59")); //fix it to 23:59
-            return timestamp;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return timestamp;
+        }else {
+//            return timestamp;      //return same time as
+//                GregorianCalendar cal = timestamp.toCalendar();
+//                cal.set(Calendar.HOUR_OF_DAY, 23);   //fix it to 23:59
+//                cal.set(Calendar.MINUTE, 59);
+//                cal.set(Calendar.SECOND, 0);
+//                cal.set(Calendar.MILLISECOND, 0);
+                return new Timestamp((timestamp.getUnixTime()+43140000 ) ,true);
         }
     }
 
     private static Timestamp getCurrentTimestamp() {
-        return new Timestamp(System.currentTimeMillis());
+        return new Timestamp(System.currentTimeMillis(),true);
     }
 
     public static String formatHeaderDate(GregorianCalendar day) {

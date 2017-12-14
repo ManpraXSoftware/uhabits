@@ -46,12 +46,20 @@ public class CreateLogCommand extends Command {
                 repetition = new Repetition(timestamp, Checkmark.UNCHECKED);
                 repetitionList.add(repetition);
             }
-            repetition.getHabitLogs().add(new HabitLog(DateUtils.getCorrectLogTime(timestamp),Checkmark.CHECKED_EXPLICITLY));
+            newLog=new HabitLog(DateUtils.getCorrectLogTime(timestamp),Checkmark.CHECKED_EXPLICITLY);
+            repetition.getHabitLogs().add(newLog);
+            previousLog=newLog;
+            repetition.setValue(repetition.getHabitLogs().size());
         }else{//Long tap   --> remove last Habit Log from corresponding to repetition
-            if (repetition!=null&&repetition.getHabitLogs()!=null)
-                repetition.getHabitLogs().remove(repetition.getHabitLogs().getNewest());
+            if (repetition!=null&&repetition.getHabitLogs()!=null) {
+                previousLog=repetition.getHabitLogs().getLast();
+                repetition.getHabitLogs().remove(previousLog);
+                repetition.setValue(repetition.getHabitLogs().size());
+                if (repetition.getHabitLogs().size()==0){//if its last log entry then also remove Repetition
+                    repetitionList.remove(repetition);
+                }
+            }
         }
-        repetition.setValue(repetition.getHabitLogs().size());
         habit.invalidateNewerThan(timestamp);
     }
 

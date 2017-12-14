@@ -83,6 +83,13 @@ public class SQLiteHabitLogList extends HabitLogList {
 
     @Nullable
     @Override
+    public HabitLog getLast() {
+        loadRecords();
+        return list.getLast();
+    }
+
+    @Nullable
+    @Override
     public HabitLog getNewest() {
         loadRecords();
         return list.getNewest();

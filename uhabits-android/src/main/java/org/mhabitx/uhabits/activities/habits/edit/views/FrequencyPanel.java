@@ -166,7 +166,7 @@ public class FrequencyPanel extends FrameLayout {
             targetEditText.setError(
                     res.getString(R.string.validation_show_not_be_blank));
             valid = false;
-        }else if(getFrequency().getNumerator()!=Integer.parseInt(count)){
+        }else if(getFrequency().getNumerator()<Integer.parseInt(count)){
             targetEditText.setError(
                     res.getString(R.string.validation_show_target_not_exceed_limit,getFrequency().getNumerator()));
             valid = false;

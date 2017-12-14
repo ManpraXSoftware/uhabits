@@ -19,16 +19,19 @@
 
 package org.mhabitx.uhabits.core.models;
 
-import org.apache.commons.lang3.builder.*;
-import org.mhabitx.uhabits.core.utils.DateUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
-import static java.util.Calendar.*;
-import static org.mhabitx.uhabits.core.utils.StringUtils.*;
+import static java.util.Calendar.DAY_OF_WEEK;
+import static org.mhabitx.uhabits.core.utils.StringUtils.defaultToStringStyle;
 
-public final class Timestamp
-{
+public final class Timestamp {
 
     public static final long DAY_LENGTH = 86400000;
 
@@ -36,26 +39,23 @@ public final class Timestamp
 
     private final long unixTime;
 
-    public Timestamp(long unixTime)
-    {
-        if (unixTime < 0 || unixTime % DAY_LENGTH != 0)
-            throw new IllegalArgumentException(
-                "Invalid unix time: " + unixTime);
+    public Timestamp(long unixTime) {
+//        if (unixTime < 0 || unixTime % DAY_LENGTH != 0)
+//            throw new IllegalArgumentException(
+//                    "Invalid unix time: " + unixTime);
 
         this.unixTime = unixTime;
     }
-    public Timestamp(long unixTime,boolean noCheck)
-    {
+
+    public Timestamp(long unixTime, boolean noCheck) {
         this.unixTime = unixTime;
     }
 
-    public Timestamp(GregorianCalendar cal)
-    {
+    public Timestamp(GregorianCalendar cal) {
         this(cal.getTimeInMillis());
     }
 
-    public long getUnixTime()
-    {
+    public long getUnixTime() {
         return unixTime;
     }
 
@@ -63,14 +63,12 @@ public final class Timestamp
      * Returns -1 if this timestamp is older than the given timestamp, 1 if this
      * timestamp is newer, or zero if they are equal.
      */
-    public int compare(Timestamp other)
-    {
+    public int compare(Timestamp other) {
         return Long.signum(this.unixTime - other.unixTime);
     }
 
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (this == o) return true;
 
         if (o == null || getClass() != o.getClass()) return false;
@@ -78,31 +76,27 @@ public final class Timestamp
         Timestamp timestamp = (Timestamp) o;
 
         return new EqualsBuilder()
-            .append(unixTime, timestamp.unixTime)
-            .isEquals();
+                .append(unixTime, timestamp.unixTime)
+                .isEquals();
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return new HashCodeBuilder(17, 37).append(unixTime).toHashCode();
     }
 
     /**
      * Given two timestamps, returns whichever timestamp is the oldest one.
      */
-    public static Timestamp oldest(Timestamp first, Timestamp second)
-    {
+    public static Timestamp oldest(Timestamp first, Timestamp second) {
         return first.unixTime < second.unixTime ? first : second;
     }
 
-    public Timestamp minus(int days)
-    {
+    public Timestamp minus(int days) {
         return plus(-days);
     }
 
-    public Timestamp plus(int days)
-    {
+    public Timestamp plus(int days) {
         return new Timestamp(unixTime + DAY_LENGTH * days);
     }
 
@@ -111,49 +105,46 @@ public final class Timestamp
      * the other timestamp equals this one, returns zero. If the other timestamp
      * is older than this one, returns a negative number.
      */
-    public int daysUntil(Timestamp other)
-    {
+    public int daysUntil(Timestamp other) {
         return (int) ((other.unixTime - this.unixTime) / DAY_LENGTH);
     }
 
-    public boolean isNewerThan(Timestamp other)
-    {
+    public boolean isNewerThan(Timestamp other) {
         return compare(other) > 0;
     }
 
-    public boolean isOlderThan(Timestamp other)
-    {
+    public boolean isOlderThan(Timestamp other) {
         return compare(other) < 0;
     }
 
 
-    public Date toJavaDate()
-    {
+    public Date toJavaDate() {
         return new Date(unixTime);
     }
 
-    public GregorianCalendar toCalendar()
-    {
+    public GregorianCalendar toCalendar() {
         GregorianCalendar day =
-            new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+                new GregorianCalendar(TimeZone.getTimeZone("GMT"));
         day.setTimeInMillis(unixTime);
         return day;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return new ToStringBuilder(this, defaultToStringStyle())
-            .append("unixTime", unixTime)
-            .toString();
+                .append("unixTime", unixTime)
+                .toString();
     }
 
-    public int getWeekday()
-    {
+    public int getWeekday() {
         return toCalendar().get(DAY_OF_WEEK) % 7;
     }
 
     public boolean isToday() {
-        return this.toJavaDate().compareTo(new Date(System.currentTimeMillis()))==0;
+        GregorianCalendar cal1 = new Timestamp(System.currentTimeMillis(),true).toCalendar();//today
+        GregorianCalendar cal2 = this.toCalendar();
+        return cal1.get(Calendar.ERA) == cal2.get(Calendar.ERA) &&
+                cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
     }
 }

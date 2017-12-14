@@ -76,6 +76,14 @@ public class MemoryHabitLogList extends HabitLogList {
 
     @Nullable
     @Override
+    public HabitLog getLast() {
+        if (list.isEmpty())
+            return null;
+        return list.get(list.size()-1);
+    }
+
+    @Nullable
+    @Override
     public HabitLog getNewest() {
         Timestamp newestTimestamp = Timestamp.ZERO;
         HabitLog newestLog = null;
