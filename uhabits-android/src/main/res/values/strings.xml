@@ -218,4 +218,6 @@
     <string name="target">Target</string>
     <string name="default_target">24</string>
     <string name="validation_show_target_not_exceed_limit">Target count should not exceed limit of %d</string>
+    <string name="target_per_day">Target\n per day</string>
+    <string name="target_limit"><b>Limit</b>\n %d</string>
 </resources>

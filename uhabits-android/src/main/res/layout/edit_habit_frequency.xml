@@ -79,7 +79,7 @@
 
         <TextView
             style="@style/dialogFormLabel"
-            android:text="@string/target"/>
+            android:text="@string/target_per_day"/>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="0dp"
@@ -98,8 +98,12 @@
         </android.support.design.widget.TextInputLayout>
 
         <TextView
+            android:layout_marginLeft="16dp"
+            android:id="@+id/targetLimitText"
             android:layout_width="0dp"
+            style="@style/dialogFormLabel"
             android:layout_height="wrap_content"
+            android:text="@string/target_limit"
             android:layout_weight="2">
 
             <!--<org.mhabitx.uhabits.activities.habits.edit.views.ExampleEditText-->

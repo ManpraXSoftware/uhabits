@@ -49,6 +49,9 @@ public class FrequencyPanel extends FrameLayout {
     @BindView(R.id.denominator)
     TextView tvDenominator;
 
+    @BindView(R.id.targetLimitText)
+    TextView targetLimitText;
+
     @BindView(R.id.spinner)
     Spinner spinner;
 
@@ -93,6 +96,7 @@ public class FrequencyPanel extends FrameLayout {
 
         tvNumerator.setText(Integer.toString(freq.getNumerator()));
         tvDenominator.setText(Integer.toString(freq.getDenominator()));
+        targetLimitText.setText(getResources().getString(R.string.target_limit,getFrequency().getNumerator()));
     }
 
     public int getTarget() {
@@ -189,18 +193,18 @@ public class FrequencyPanel extends FrameLayout {
         targetLayout.setVisibility(GONE);//also hide target panel
     }
 
-    private void showTargetPanel() {
-
+    private void canShowTargetPanel(int quickSelectPosition) {
+        if (quickSelectPosition == 0) {//make target panel visible here
+            targetLayout.setVisibility(VISIBLE);
+        } else {
+            targetLayout.setVisibility(GONE);
+        }
     }
 
     private void showSimplifiedFrequency(int quickSelectPosition) {
         spinner.setVisibility(View.VISIBLE);
         spinner.setSelection(quickSelectPosition);
         customFreqPanel.setVisibility(View.GONE);
-        if (quickSelectPosition == 0) {//make target panel visible here
-            targetLayout.setVisibility(VISIBLE);
-        } else {
-            targetLayout.setVisibility(GONE);
-        }
+        canShowTargetPanel(quickSelectPosition);
     }
 }
