@@ -173,6 +173,8 @@ public class EditHabitDialog extends AppCompatDialogFragment
         //check here if drop down option is any time then change it to Multiple type habit
         if (frequencyPanel.isAnyTime()){
             type=Habit.MULTIPLE_HABIT;
+        }else if (type==Habit.NUMBER_HABIT){
+
         }else{   //reset to YES NO TYPE
             type=Habit.YES_NO_HABIT;
         }

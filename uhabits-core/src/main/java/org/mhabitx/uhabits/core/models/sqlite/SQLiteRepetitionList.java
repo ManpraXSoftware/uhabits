@@ -129,6 +129,7 @@ public class SQLiteRepetitionList extends RepetitionList {
     @Override
     public void remove(@NonNull Repetition repetition) {
         loadRecords();
+        repetition.getHabitLogs().removeAll(); ///first remove all logs corresponding to this repetition
         list.remove(repetition);
         check(habit.getId());
         repository.execSQL(

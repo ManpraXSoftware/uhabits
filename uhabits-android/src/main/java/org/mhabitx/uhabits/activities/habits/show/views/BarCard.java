@@ -111,6 +111,7 @@ public class BarCard extends HabitCard
             title.setTextColor(color);
             chart.setColor(color);
             chart.setTarget(habit.getTargetValue());
+            chart.setHabitType(habit.getType());
         }
     }
 }

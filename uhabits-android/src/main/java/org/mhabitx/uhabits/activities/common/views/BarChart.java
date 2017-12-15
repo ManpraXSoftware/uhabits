@@ -97,6 +97,7 @@ public class BarChart extends ScrollableChart
     private double maxValue;
 
     private double target;
+    private int factor=1000;  //this will use to calculate bar height
 
     public BarChart(Context context)
     {
@@ -141,7 +142,8 @@ public class BarChart extends ScrollableChart
         maxValue = 1.0;
         for (Checkmark c : checkmarks)
             maxValue = Math.max(maxValue, c.getValue());
-        maxValue = Math.ceil(maxValue / 1000 * 1.05) * 1000;
+
+        maxValue = Math.ceil(maxValue / factor * 1.05) * factor;
 
         postInvalidate();
     }
@@ -271,7 +273,7 @@ public class BarChart extends ScrollableChart
         float margin = baseSize * 0.225f;
 
         int color = textColor;
-        if (value / 1000 >= target) color = primaryColor;
+        if (value / factor >= target) color = primaryColor;
 
         rect.inset(-margin, 0);
         setModeOrColor(pGraph, XFERMODE_CLEAR, backgroundColor);
@@ -356,10 +358,10 @@ public class BarChart extends ScrollableChart
         if (value == 0) return;
 
         int activeColor = textColor;
-        if (value / 1000 >= target)
+        if (value / factor >= target)
             activeColor = primaryColor;
 
-        String label = NumberButtonViewKt.toShortString(value / 1000);
+        String label = NumberButtonViewKt.toShortString(value / factor);
         Rect rText = new Rect();
         pText.getTextBounds(label, 0, label.length(), rText);
 
@@ -474,5 +476,15 @@ public class BarChart extends ScrollableChart
     {
         if (isTransparencyEnabled) p.setXfermode(mode);
         else p.setColor(color);
+    }
+
+    public void setHabitType(int type) {
+        if (type==Habit.MULTIPLE_HABIT){
+            factor=1;
+        }else if (type==Habit.NUMBER_HABIT){
+            factor=1000;
+        }else {
+            //ignore
+        }
     }
 }
