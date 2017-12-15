@@ -59,7 +59,7 @@ public class SubtitleCard extends HabitCard
 
         questionLabel.setTextColor(color);
         questionLabel.setText(habit.getDescription());
-        frequencyLabel.setText(toText(habit.getFrequency()));
+        frequencyLabel.setText(habit.isMultiple()?toTextMultiType((int)habit.getTargetValue(),1):toText(habit.getFrequency()));
 
         if (habit.hasReminder()) updateReminderText(habit.getReminder());
 
@@ -82,6 +82,12 @@ public class SubtitleCard extends HabitCard
         questionLabel.setTextColor(PaletteUtils.getAndroidTestColor(1));
         questionLabel.setText("Have you meditated today?");
         reminderLabel.setText("08:00");
+    }
+    private String toTextMultiType(int num, int den){
+        Resources resources = getResources();
+        String times_every = resources.getString(R.string.times_every);
+        return String.format("%d %s %d %s", num, times_every, den,
+                resources.getString(R.string.day));
     }
 
     private String toText(Frequency freq)

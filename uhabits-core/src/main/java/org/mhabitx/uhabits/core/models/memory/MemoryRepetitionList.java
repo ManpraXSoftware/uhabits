@@ -142,4 +142,12 @@ public class MemoryRepetitionList extends RepetitionList
         list.clear();
         getObservable().notifyListeners();
     }
+
+    @Override
+    public long getTotalCountForMultiple() {
+        long count=0;
+         for (Repetition rep:list)
+             count+=rep.getValue();
+         return count;
+    }
 }

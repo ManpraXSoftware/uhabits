@@ -267,7 +267,9 @@ public abstract class ScoreList implements Iterable<Score>
     {
         if (from.isNewerThan(to)) return;
 
-        final double freq = habit.getFrequency().toDouble();
+        double freq = habit.getFrequency().toDouble();
+        if (habit.isMultiple())
+            freq/=100;
         final int checkmarkValues[] = habit.getCheckmarks().getValues(from, to);
 
         List<Score> scores = new LinkedList<>();
@@ -281,9 +283,12 @@ public abstract class ScoreList implements Iterable<Score>
                 value /= 1000;
                 value /= habit.getTargetValue();
                 value = Math.min(1, value);
+            }else if(habit.isMultiple()){
+                value /= habit.getTargetValue();
+                value = Math.min(1, value);
             }
 
-            if (!habit.isNumerical() && value > 0) value = 1;
+            if ((!habit.isNumerical() ||!habit.isMultiple())&& value > 0) value = 1;
 
             previousValue = Score.compute(freq, previousValue, value);
             scores.add(new Score(from.plus(i), previousValue));

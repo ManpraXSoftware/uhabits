@@ -147,6 +147,12 @@ public class SQLiteRepetitionList extends RepetitionList {
     }
 
     @Override
+    public long getTotalCountForMultiple() {
+        loadRecords();
+        return list.getTotalCountForMultiple();
+    }
+
+    @Override
     public long getTotalCount() {
         loadRecords();
         return list.getTotalCount();

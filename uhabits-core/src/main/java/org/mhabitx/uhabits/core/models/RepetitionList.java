@@ -229,4 +229,6 @@ public abstract class RepetitionList {
     }
 
     public abstract void removeAll();
+
+    public abstract long getTotalCountForMultiple();
 }
