@@ -189,6 +189,7 @@ public class FrequencyPanel extends FrameLayout {
 
     private void showCustomFrequency() {
         spinner.setVisibility(View.GONE);
+        spinner.setSelection(5);
         customFreqPanel.setVisibility(View.VISIBLE);
         targetLayout.setVisibility(GONE);//also hide target panel
     }
