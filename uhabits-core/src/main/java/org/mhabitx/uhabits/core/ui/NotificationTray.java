@@ -163,6 +163,10 @@ public class NotificationTray
     {
         int todayValue;
 
+        int type;
+
+        double targetValue;
+
         private final Habit habit;
 
         private final Timestamp timestamp;
@@ -180,12 +184,15 @@ public class NotificationTray
         public void doInBackground()
         {
             todayValue = habit.getCheckmarks().getTodayValue();
+            type = habit.getType();
+            targetValue = habit.getTargetValue();
         }
 
         @Override
         public void onPostExecute()
         {
-            if (todayValue != Checkmark.UNCHECKED) return;
+            if (type == Habit.YES_NO_HABIT && todayValue != Checkmark.UNCHECKED) return;
+            if (type == Habit.MULTIPLE_HABIT && todayValue >= targetValue) return;
             if (!shouldShowReminderToday()) return;
             if (!habit.hasReminder()) return;
 
