@@ -41,6 +41,8 @@ public class Habit
 
     public static final int AT_MOST = 1;
 
+    public static final int MULTIPLE_HABIT_LIMIT = 72;
+
     public static final String HABIT_URI_FORMAT =
         "content://org.mhabitx.uhabits/habit/%d";
 

@@ -158,6 +158,7 @@ public abstract class RepetitionList {
 
         return map;
     }
+
     /**
      * Returns the Repetition with specified id.
      *
@@ -166,6 +167,7 @@ public abstract class RepetitionList {
      */
     @Nullable
     public abstract Repetition getById(long id);
+
     /**
      * Removes a given repetition from the list.
      * <p>
@@ -197,16 +199,50 @@ public abstract class RepetitionList {
             throw new IllegalStateException("habit must NOT be numerical");
 
         Repetition rep = getByTimestamp(timestamp);
-        if (rep != null) {
+//        if (rep != null) {
+//            remove(rep);
+//            rep.getHabitLogs().removeAll();
+//        }
+
+        int todayValue = habit.getCheckmarks().getTodayValue();
+        int type = habit.getType();
+        double targetValue = habit.getTargetValue();
+
+        if (rep == null) {
+
+            if (type == Habit.YES_NO_HABIT) {
+                rep = new Repetition(timestamp, Checkmark.CHECKED_EXPLICITLY);
+            } else if (type == Habit.MULTIPLE_HABIT) {
+                rep = new Repetition(timestamp, todayValue + 1);
+//                rep.setValue(todayValue+1);
+            }
+
+            //  init multiple type habit params
+            if (type == Habit.YES_NO_HABIT) {
+                rep.setTarget(Habit.AT_MOST);
+                rep.setLimit(Habit.AT_MOST);
+            } else if (type == Habit.MULTIPLE_HABIT) {
+                rep.setTarget((int) targetValue);
+                rep.setLimit(Habit.MULTIPLE_HABIT_LIMIT);
+            }
+
+            add(rep);    //this will add into InMemory list
+            rep.getHabitLogs().makeEntry(DateUtils.getCorrectLogTime(timestamp)); //make habit log
+
+            if (type == Habit.MULTIPLE_HABIT) {
+                rep.setValue(todayValue + 1);
+            }
+
+        } else if (type == Habit.YES_NO_HABIT) {
             remove(rep);
             rep.getHabitLogs().removeAll();
-        } else {
-            rep = new Repetition(timestamp, Checkmark.CHECKED_EXPLICITLY);
-            add(rep);
-            //  init multiple type habit params
-            rep.setTarget(Habit.AT_MOST);
-            rep.setLimit(Habit.AT_MOST);
-           rep.getHabitLogs().makeEntry(DateUtils.getCorrectLogTime(timestamp));
+        } else if (type == Habit.MULTIPLE_HABIT) {
+
+            if (todayValue < Habit.MULTIPLE_HABIT_LIMIT) {
+                rep.setValue(todayValue + 1);
+                rep.getHabitLogs().makeEntry(DateUtils.getCorrectLogTime(timestamp));
+            }
+
         }
 
         habit.invalidateNewerThan(timestamp);

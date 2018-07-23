@@ -27,8 +27,7 @@ import org.mhabitx.uhabits.core.ui.*;
 
 import javax.inject.*;
 
-public class WidgetBehavior
-{
+public class WidgetBehavior {
     private HabitList habitList;
 
     @NonNull
@@ -39,37 +38,38 @@ public class WidgetBehavior
     @Inject
     public WidgetBehavior(@NonNull HabitList habitList,
                           @NonNull CommandRunner commandRunner,
-                          @NonNull NotificationTray notificationTray)
-    {
+                          @NonNull NotificationTray notificationTray) {
         this.habitList = habitList;
         this.commandRunner = commandRunner;
         this.notificationTray = notificationTray;
     }
 
-    public void onAddRepetition(@NonNull Habit habit, Timestamp timestamp)
-    {
-        Repetition rep = habit.getRepetitions().getByTimestamp(timestamp);
-        if (rep != null) return;
-        performToggle(habit, timestamp);
+    public void onAddRepetition(@NonNull Habit habit, Timestamp timestamp) {
+        int todayValue = habit.getCheckmarks().getTodayValue();
+        int type = habit.getType();
+
+        if (type == Habit.YES_NO_HABIT && todayValue == Checkmark.UNCHECKED) {
+            performToggle(habit, timestamp);
+        } else if (type == Habit.MULTIPLE_HABIT && todayValue < Habit.MULTIPLE_HABIT_LIMIT) {
+            performToggle(habit, timestamp);
+        }
+
         notificationTray.cancel(habit);
     }
 
-    public void onRemoveRepetition(@NonNull Habit habit, Timestamp timestamp)
-    {
+    public void onRemoveRepetition(@NonNull Habit habit, Timestamp timestamp) {
         Repetition rep = habit.getRepetitions().getByTimestamp(timestamp);
         if (rep == null) return;
         performToggle(habit, timestamp);
     }
 
-    public void onToggleRepetition(@NonNull Habit habit, Timestamp timestamp)
-    {
+    public void onToggleRepetition(@NonNull Habit habit, Timestamp timestamp) {
         performToggle(habit, timestamp);
     }
 
-    private void performToggle(@NonNull Habit habit, Timestamp timestamp)
-    {
+    private void performToggle(@NonNull Habit habit, Timestamp timestamp) {
         commandRunner.execute(
-            new ToggleRepetitionCommand(habitList, habit, timestamp),
-            habit.getId());
+                new ToggleRepetitionCommand(habitList, habit, timestamp),
+                habit.getId());
     }
 }
