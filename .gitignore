@@ -17,6 +17,7 @@ Thumbs.db
 art/
 bin/
 build/
+release/
 captures/
 docs/
 gen/
@@ -25,3 +26,4 @@ crowdin.yaml
 local
 tmp/
 secret/
+uhabit_key.jks
