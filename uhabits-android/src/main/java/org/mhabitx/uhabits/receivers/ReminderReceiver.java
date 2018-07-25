@@ -21,6 +21,7 @@ package org.mhabitx.uhabits.receivers;
 
 import android.content.*;
 import android.util.*;
+import android.widget.Toast;
 
 import org.mhabitx.uhabits.*;
 import org.mhabitx.uhabits.core.models.*;
@@ -67,12 +68,11 @@ public class ReminderReceiver extends BroadcastReceiver
 
         Habit habit = null;
         long today = DateUtils.getStartOfToday();
-
-        if (intent.getData() != null)
+        if (intent.getData() != null) {
             habit = habits.getById(parseId(intent.getData()));
+        }
         final Long timestamp = intent.getLongExtra("timestamp", today);
         final Long reminderTime = intent.getLongExtra("reminderTime", today);
-
         try
         {
             switch (intent.getAction())

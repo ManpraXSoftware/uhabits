@@ -57,6 +57,7 @@ public class SQLiteHabitList extends HabitList
         this.modelFactory = modelFactory;
         this.list = new MemoryHabitList();
         this.repository = modelFactory.buildHabitListRepository();
+        loadRecords();
     }
 
     private void loadRecords()
